@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>Report Garbage | RecycleX</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+
+    <!-- =====================================================
+         TAILWIND CSS
+         ===================================================== -->
+
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css">
+
+
+    <!-- =====================================================
+         MAIN CSS
+         ===================================================== -->
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css">
+
+
+    <!-- =====================================================
+         API JS
+         ===================================================== -->
+
+    <script src="/js/api.js"></script>
+
+
+    <!-- =====================================================
+         COMMON JS
+         ===================================================== -->
+
+    <script src="/js/common.js"></script>
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+     ========================================================= -->
+
+<nav class="glass">
+
+    <div class="max-w-7xl mx-auto px-6 py-4">
+
+        <a
+                href="/user-dashboard.html"
+                class="text-green-400 font-bold text-xl">
+
+            <span class="brand-mark" aria-hidden="true"></span> RECYCLEX
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+
+<main
+        class="max-w-7xl mx-auto px-6 py-10">
+
+
+    <!-- =====================================================
+         PAGE TITLE
+         ===================================================== -->
+
+    <h1
+            class="text-4xl font-bold">
+
+        Report Garbage
+
+    </h1>
+
+
+    <p
+            class="text-gray-400 mt-2 mb-8">
+
+        Search for the garbage location or use your
+        current GPS location.
+
+    </p>
+
+
+
+    <!-- =====================================================
+         TWO COLUMN LAYOUT
+         ===================================================== -->
+
+    <div
+            class="grid lg:grid-cols-2 gap-8">
+
+
+
+        <!-- =================================================
+             LEFT SIDE - REPORT FORM
+             ================================================= -->
+
+        <div
+                class="glass rounded-3xl p-8">
+
+
+            <form
+                    id="reportForm">
+
+
+                <!-- =========================================
+                     WASTE TYPE
+                     ========================================= -->
+
+                <label
+                        for="wasteType"
+                        class="text-gray-400 block mb-2">
+
+                    Waste Type
+
+                </label>
+
+
+                <select
+                        id="wasteType"
+                        name="wasteType"
+                        class="eco-input mb-5"
+                        required>
+
+
+                    <option value="">
+                        Select waste type
+                    </option>
+
+
+                    <option value="PLASTIC">
+                        Plastic
+                    </option>
+
+
+                    <option value="PAPER">
+                        Paper
+                    </option>
+
+
+                    <option value="GLASS">
+                        Glass
+                    </option>
+
+
+                    <option value="METAL">
+                        Metal
+                    </option>
+
+
+                    <option value="ORGANIC">
+                        Organic
+                    </option>
+
+
+                    <option value="E_WASTE">
+                        E-Waste
+                    </option>
+
+
+                    <option value="MIXED">
+                        Mixed
+                    </option>
+
+
+                    <option value="OTHER">
+                        Other
+                    </option>
+
+
+                </select>
+
+
+
+                <!-- =========================================
+                     LOCATION SEARCH
+                     ========================================= -->
+
+                <label
+                        class="text-gray-400 block mb-2">
+
+                    Search Garbage Location
+
+                </label>
+
+
+                <p
+                        class="text-gray-500 text-sm mb-2">
+
+                    Start typing a place, street, area or landmark.
+
+                </p>
+
+
+                <!--
+                    Google Places API (New)
+                    PlaceAutocompleteElement will be inserted here.
+                -->
+
+                <div
+                        id="placeAutocompleteContainer"
+                        class="mb-5">
+
+                </div>
+
+
+
+                <!-- =========================================
+                     LOCATION NAME
+                     ========================================= -->
+
+                <!--
+                    This stores the selected location name.
+
+                    Example:
+
+                    Salt Lake, Kolkata, West Bengal, India
+                -->
+
+                <input
+                        id="location"
+                        name="location"
+                        type="hidden"
+                        required>
+
+
+
+                <!-- =========================================
+                     DESCRIPTION
+                     ========================================= -->
+
+                <label
+                        for="description"
+                        class="text-gray-400 block mb-2">
+
+                    Description
+
+                </label>
+
+
+                <textarea
+                        id="description"
+                        name="description"
+                        class="eco-input mb-5 h-32"
+                        placeholder="Describe the garbage..."
+                        required></textarea>
+
+
+
+                <!-- =========================================
+                     IMAGE
+                     ========================================= -->
+
+                <label
+                        for="image"
+                        class="text-gray-400 block mb-2">
+
+                    Photo
+
+                </label>
+
+
+                <input
+                        id="image"
+                        name="image"
+                        type="file"
+                        accept="image/*"
+                        class="w-full text-gray-400 mb-3">
+
+
+                <!--
+                    Live 3D preview of the selected photo.
+                    Hidden until a file is chosen (see report.js).
+                -->
+
+                <div
+                        id="imagePreviewWrap"
+                        class="glass card-3d rounded-2xl p-3 mb-5 hidden">
+
+                    <img
+                            id="imagePreview"
+                            src=""
+                            alt="Selected garbage photo"
+                            class="w-full max-h-56 object-cover rounded-xl">
+
+                </div>
+
+
+
+                <!-- =========================================
+                     LATITUDE
+                     ========================================= -->
+
+                <!--
+                    Filled automatically by report.js.
+
+                    Example:
+
+                    22.572600
+                -->
+
+                <input
+                        id="latitude"
+                        name="latitude"
+                        type="hidden">
+
+
+
+                <!-- =========================================
+                     LONGITUDE
+                     ========================================= -->
+
+                <!--
+                    Filled automatically by report.js.
+
+                    Example:
+
+                    88.363900
+                -->
+
+                <input
+                        id="longitude"
+                        name="longitude"
+                        type="hidden">
+
+
+
+                <!-- =========================================
+                     CURRENT LOCATION BUTTON
+                     ========================================= -->
+
+                <button
+                        type="button"
+                        id="locationButton"
+                        class="
+                            w-full
+                            px-5
+                            py-3
+                            rounded-xl
+                            border
+                            border-green-400/20
+                            text-green-400
+                            mb-4
+                            hover:bg-green-400/10
+                            transition
+                        ">
+
+                    📍 Use My Current Location
+
+                </button>
+
+
+
+                <!-- =========================================
+                     SUBMIT REPORT
+                     ========================================= -->
+
+                <button
+                        type="submit"
+                        id="submitButton"
+                        class="eco-button w-full">
+
+                    SUBMIT REPORT
+
+                </button>
+
+
+
+                <!-- =========================================
+                     MESSAGE
+                     ========================================= -->
+
+                <p
+                        id="message"
+                        class="mt-4">
+
+                </p>
+
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =================================================
+             RIGHT SIDE - GOOGLE MAP
+             ================================================= -->
+
+        <div
+                class="glass rounded-3xl p-4">
+
+
+            <!-- =============================================
+                 MAP
+                 ============================================= -->
+
+            <div
+                    id="map"
+                    style="
+                        width: 100%;
+                        height: 500px;
+                        border-radius: 20px;
+                    ">
+
+            </div>
+
+
+
+            <!-- =============================================
+                 COORDINATES
+                 ============================================= -->
+
+            <p
+                    id="coordinates"
+                    class="text-gray-400 text-sm mt-4">
+
+                Location not selected.
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- =========================================================
+     REPORT JAVASCRIPT
+     ========================================================= -->
+
+<script src="/js/report.js"></script>
+
+
+
+<!-- =========================================================
+     GOOGLE MAPS JAVASCRIPT API
+     =========================================================
+
+     APIs being used by this page:
+
+     1. Maps JavaScript API
+     2. Places API (New)
+
+     IMPORTANT:
+     Replace YOUR_GOOGLE_API_KEY with your Google Cloud API key.
+
+     Do NOT put a space after key=.
+
+     Correct:
+
+     ?key=AIzaSyXXXXXXXX
+
+     ========================================================= -->
+
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-vaZ68fa-9kK9g4krM9fqmRZy7MpbD5c
+&libraries=places&callback=initMap"
+        async
+        defer>
+</script>
+
+
+
+
+</body>
+
+</html>

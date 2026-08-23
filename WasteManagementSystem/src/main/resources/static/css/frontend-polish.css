@@ -1,0 +1,1061 @@
+
+/* =========================================================
+   RECYCLEX FRONTEND POLISH — Google-inspired Eco UI
+   FRONTEND ONLY: no API, map, auth, backend or data logic.
+   ========================================================= */
+
+:root{
+  --gx-blue:#4285F4;
+  --gx-green:#34A853;
+  --gx-yellow:#FBBC05;
+  --gx-red:#EA4335;
+
+  --ui-bg:#071018;
+  --ui-surface:#0d1b22;
+  --ui-surface-2:#11252d;
+  --ui-text:#F7FBFF;
+  --ui-text-2:#D6E4EA;
+  --ui-text-3:#A9BDC6;
+  --ui-muted:#8FA8B2;
+  --ui-border:rgba(144,202,249,.18);
+  --ui-border-strong:rgba(66,133,244,.48);
+  --ui-green-glow:rgba(52,168,83,.26);
+  --ui-blue-glow:rgba(66,133,244,.28);
+}
+
+/* ---------- readable global typography ---------- */
+body{
+  color:var(--ui-text) !important;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+h1,h2,h3,h4,h5,h6{
+  color:var(--ui-text) !important;
+  text-shadow:0 1px 18px rgba(66,133,244,.10);
+}
+
+p,li,dt,dd,small,label{
+  color:var(--ui-text-2);
+}
+
+strong,b{
+  color:#FFFFFF;
+}
+
+a{
+  transition:color .2s ease, background-color .2s ease, border-color .2s ease,
+             transform .2s ease, box-shadow .2s ease;
+}
+
+/* Tailwind/utility text colors that were too dim or too close to the background */
+.text-white{ color:#F8FBFF !important; }
+.text-gray-400,.text-slate-400{ color:#B8CBD4 !important; }
+.text-gray-500,.text-slate-500{ color:#9DB3BD !important; }
+.text-gray-600,.text-slate-600{ color:#8FA7B1 !important; }
+.text-slate-200{ color:#DCEAF0 !important; }
+.text-slate-700{ color:#829BA5 !important; }
+
+.text-green-300,.text-emerald-300{ color:#7BE49A !important; }
+.text-green-400,.text-emerald-400{ color:#57D77A !important; }
+.text-green-500{ color:#34A853 !important; }
+.text-cyan-400{ color:#55C7F7 !important; }
+.text-yellow-300,.text-yellow-400{ color:#FFD35A !important; }
+.text-red-300,.text-red-400{ color:#FF8178 !important; }
+.text-purple-400{ color:#B9A1FF !important; }
+
+/* Existing site muted variable was too dark and caused "blurred" text */
+:root{ --text-muted:#9DB8C2 !important; --text-soft:#C7D8DE !important; }
+
+/* ---------- headings / hero copy ---------- */
+.hero h1,.hero-title,.page-title{
+  color:#FFFFFF !important;
+  text-shadow:
+    0 2px 18px rgba(0,0,0,.45),
+    0 0 32px rgba(66,133,244,.20);
+}
+
+.text-glow{
+  text-shadow:
+    0 0 14px rgba(66,133,244,.55),
+    0 0 32px rgba(52,168,83,.24),
+    0 0 58px rgba(251,188,5,.10) !important;
+}
+
+/* ---------- premium glass / 3D cards ---------- */
+.glass,.card,.stat-card,.action-card,.table-wrapper,.sidebar,.map-card,
+.certificate-paper,.popup-box{
+  border-color:var(--ui-border);
+  box-shadow:
+    0 22px 55px rgba(0,0,0,.30),
+    inset 0 1px 0 rgba(255,255,255,.055),
+    0 0 0 1px rgba(66,133,244,.025);
+}
+
+.card,.stat-card,.action-card,.glass.card-3d{
+  transform-style:preserve-3d;
+}
+
+.card:hover,.action-card:hover{
+  border-color:var(--ui-border-strong);
+  box-shadow:
+    0 28px 70px rgba(0,0,0,.42),
+    0 0 35px var(--ui-blue-glow),
+    0 0 22px var(--ui-green-glow);
+}
+
+.card-3d:hover{
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.48),
+    0 0 48px rgba(66,133,244,.22),
+    0 0 24px rgba(52,168,83,.14),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* Colorful but controlled Google-style accent lighting */
+.card::after,.stat-card::after,.action-card::after{
+  content:"";
+  position:absolute;
+  width:150px;height:150px;
+  right:-85px;bottom:-95px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(66,133,244,.18) 0%,
+    rgba(52,168,83,.09) 35%,
+    transparent 70%);
+  pointer-events:none;
+  filter:blur(8px);
+}
+
+/* ---------- navbar / navigation ---------- */
+.navbar,.glass nav,.navbar.glass{
+  border-color:rgba(66,133,244,.24) !important;
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.38),
+    0 0 30px rgba(66,133,244,.08) !important;
+}
+
+.sidebar-link{
+  color:#B7CBD3 !important;
+}
+
+.sidebar-link:hover{
+  color:#FFFFFF !important;
+  background:linear-gradient(90deg,rgba(66,133,244,.13),rgba(52,168,83,.06)) !important;
+  box-shadow:inset 0 0 18px rgba(66,133,244,.06);
+}
+
+.sidebar-link.active{
+  color:#67DB83 !important;
+  background:linear-gradient(90deg,rgba(52,168,83,.18),rgba(66,133,244,.06),transparent) !important;
+}
+
+/* ---------- forms / dropdowns ---------- */
+input,textarea,select{
+  color:#F4FAFD !important;
+  background-color:#0D2028 !important;
+  border-color:rgba(144,202,249,.22) !important;
+  caret-color:#67DB83;
+}
+
+input::placeholder,textarea::placeholder{
+  color:#86A0AA !important;
+  opacity:1 !important;
+}
+
+input:hover,textarea:hover,select:hover{
+  border-color:rgba(66,133,244,.48) !important;
+  box-shadow:0 0 22px rgba(66,133,244,.08);
+}
+
+input:focus,textarea:focus,select:focus{
+  color:#FFFFFF !important;
+  border-color:#4285F4 !important;
+  background-color:#102832 !important;
+  box-shadow:
+    0 0 0 3px rgba(66,133,244,.16),
+    0 0 24px rgba(52,168,83,.10) !important;
+}
+
+/* Critical fix: native select dropdown/options were white-on-white */
+select{
+  color-scheme:dark !important;
+  -webkit-appearance:auto;
+  appearance:auto;
+}
+
+select option,select optgroup{
+  color:#F4FAFD !important;
+  background:#0B1B22 !important;
+}
+
+.form-input,.form-select,.form-textarea,.eco-input{
+  color:#F4FAFD !important;
+  background:rgba(13,32,40,.88) !important;
+  border-color:rgba(144,202,249,.22) !important;
+}
+
+.form-input::placeholder,.form-textarea::placeholder,.eco-input::placeholder{
+  color:#86A0AA !important;
+}
+
+.form-label{
+  color:#DCEAF0 !important;
+}
+
+/* ---------- buttons ---------- */
+.btn,.eco-button,.eco-button-outline,.popup-btn{
+  text-shadow:none;
+}
+
+.btn-primary{
+  color:#07131A !important;
+  background:linear-gradient(135deg,#5AA3FF 0%,#4285F4 52%,#34A853 100%) !important;
+  box-shadow:0 14px 35px rgba(66,133,244,.25),0 0 22px rgba(52,168,83,.10) !important;
+}
+
+.btn-primary:hover{
+  box-shadow:0 18px 42px rgba(66,133,244,.35),0 0 30px rgba(52,168,83,.18) !important;
+}
+
+.btn-gold,.eco-button{
+  color:#17200C !important;
+  background:linear-gradient(135deg,#FFE07A,#FBBC05 58%,#F4A900) !important;
+}
+
+.btn-cyan{
+  color:#06151D !important;
+  background:linear-gradient(135deg,#67D7FF,#4285F4) !important;
+}
+
+.btn-purple{
+  color:#FFFFFF !important;
+  background:linear-gradient(135deg,#A78BFA,#6D5CE7) !important;
+}
+
+.btn-danger{
+  color:#FFFFFF !important;
+  background:linear-gradient(135deg,#FF8178,#EA4335) !important;
+}
+
+.btn-outline,.eco-button-outline{
+  color:#EAF5F8 !important;
+  border-color:rgba(66,133,244,.45) !important;
+  background:rgba(66,133,244,.07) !important;
+}
+
+.btn-outline:hover,.eco-button-outline:hover{
+  color:#FFFFFF !important;
+  border-color:#4285F4 !important;
+  background:linear-gradient(135deg,rgba(66,133,244,.16),rgba(52,168,83,.10)) !important;
+  box-shadow:0 12px 30px rgba(66,133,244,.16);
+}
+
+/* ---------- tables / status / data readability ---------- */
+th{
+  color:#D9E9EF !important;
+}
+
+td{
+  color:#C5D7DE !important;
+}
+
+tbody tr:hover{
+  background:linear-gradient(90deg,rgba(66,133,244,.07),rgba(52,168,83,.035)) !important;
+}
+
+.stat-number{
+  color:#FFFFFF !important;
+}
+
+.stat-label{
+  color:#A9C0C9 !important;
+}
+
+/* ---------- badges: Google semantic colors ---------- */
+.badge-pending{ color:#FFD35A !important; }
+.badge-assigned{ color:#55C7F7 !important; }
+.badge-progress{ color:#B9A1FF !important; }
+.badge-completed{ color:#67DB83 !important; }
+.badge-cancelled{ color:#FF8178 !important; }
+
+/* ---------- links ---------- */
+a:not(.btn):not(.eco-button):not(.eco-button-outline):not(.sidebar-link){
+  color:#B9D8FF;
+}
+a:not(.btn):not(.eco-button):not(.eco-button-outline):not(.sidebar-link):hover{
+  color:#67DB83;
+  text-shadow:0 0 16px rgba(52,168,83,.25);
+}
+
+/* ---------- alert readability ---------- */
+.alert-success{ color:#B9F3C8 !important; }
+.alert-error{ color:#FFB8B3 !important; }
+.alert-info{ color:#BCEBFF !important; }
+
+/* ---------- focus accessibility ---------- */
+:focus-visible{
+  outline:2px solid rgba(66,133,244,.85) !important;
+  outline-offset:3px !important;
+}
+
+/* ---------- decorative 3D glow ---------- */
+.glow-3d{
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.40),
+    0 0 30px rgba(66,133,244,.22),
+    0 0 55px rgba(52,168,83,.12);
+}
+
+.logo-icon{
+  background:linear-gradient(135deg,#4285F4,#34A853) !important;
+  box-shadow:0 12px 32px rgba(66,133,244,.28),0 0 25px rgba(52,168,83,.14) !important;
+}
+
+.brand-mark{
+  filter:drop-shadow(0 6px 14px rgba(66,133,244,.42))
+         drop-shadow(0 0 12px rgba(52,168,83,.18)) !important;
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,#4285F4,#34A853,#FBBC05) !important;
+}
+
+/* ---------- dark browser controls / date inputs ---------- */
+input[type="date"],input[type="time"],input[type="datetime-local"],
+input[type="month"],input[type="number"]{
+  color-scheme:dark;
+}
+
+/* ---------- mobile clarity ---------- */
+@media (max-width:650px){
+  h1,h2,h3{ text-shadow:0 1px 14px rgba(66,133,244,.14); }
+  .card:hover,.action-card:hover,.card-3d:hover{ transform:translateY(-4px); }
+}
+
+/* Keep motion tasteful and accessible */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto !important;
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
+/* =========================================================
+   RECYCLEX — PREMIUM GLOBAL TOAST + MODAL
+   Replaces browser alert() and prompt()
+   ========================================================= */
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+#rxToastContainer {
+
+  position: fixed;
+
+  top: 28px;
+  right: 28px;
+
+  width: min(420px, calc(100vw - 32px));
+
+  min-height: 82px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 17px 18px;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  rgba(13, 32, 40, 0.97),
+                  rgba(7, 20, 27, 0.97)
+          );
+
+  border: 1px solid
+  rgba(103, 219, 131, 0.30);
+
+  border-radius: 18px;
+
+  box-shadow:
+
+          0 25px 70px
+          rgba(0, 0, 0, 0.55),
+
+          0 0 40px
+          rgba(66, 133, 244, 0.12),
+
+          inset 0 1px 0
+          rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(22px);
+
+  -webkit-backdrop-filter: blur(22px);
+
+  z-index: 999999;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  transform:
+          translateX(40px)
+          scale(.96);
+
+  transition:
+          opacity .28s ease,
+          transform .28s ease,
+          visibility .28s ease;
+
+  overflow: hidden;
+}
+
+
+#rxToastContainer.show {
+
+  opacity: 1;
+
+  visibility: visible;
+
+  transform:
+          translateX(0)
+          scale(1);
+
+}
+
+
+/* Toast icon */
+
+.rx-toast-icon {
+
+  width: 44px;
+  height: 44px;
+
+  min-width: 44px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  color: #06130b;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #67db83,
+                  #34a853
+          );
+
+  box-shadow:
+          0 8px 25px
+          rgba(52, 168, 83, .28);
+}
+
+
+/* Toast content */
+
+.rx-toast-content {
+
+  flex: 1;
+
+  min-width: 0;
+
+}
+
+
+.rx-toast-title {
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  font-weight: 750;
+
+  margin-bottom: 4px;
+
+}
+
+
+.rx-toast-message {
+
+  color: #bcd0d7;
+
+  font-size: 13px;
+
+  line-height: 1.45;
+
+  word-break: break-word;
+
+}
+
+
+/* Close */
+
+.rx-toast-close {
+
+  width: 30px;
+  height: 30px;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  background:
+          rgba(255,255,255,.06);
+
+  color:
+          #9eb2ba;
+
+  font-size: 21px;
+
+  cursor: pointer;
+
+  transition:
+          .2s ease;
+
+}
+
+
+.rx-toast-close:hover {
+
+  color: #ffffff;
+
+  background:
+          rgba(255,255,255,.12);
+
+}
+
+
+/* Progress */
+
+.rx-toast-progress {
+
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+          linear-gradient(
+                  90deg,
+                  #4285f4,
+                  #34a853,
+                  #67db83
+          );
+
+  transform-origin: left;
+
+}
+
+
+/* Toast types */
+
+.rx-toast-error {
+
+  border-color:
+          rgba(234, 67, 53, .35);
+
+}
+
+
+.rx-toast-error .rx-toast-icon {
+
+  color: #ffffff;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #ff8178,
+                  #ea4335
+          );
+
+}
+
+
+.rx-toast-warning {
+
+  border-color:
+          rgba(251, 188, 5, .35);
+
+}
+
+
+.rx-toast-warning .rx-toast-icon {
+
+  color: #241b00;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #ffe07a,
+                  #fbbc05
+          );
+
+}
+
+
+.rx-toast-info {
+
+  border-color:
+          rgba(66, 133, 244, .35);
+
+}
+
+
+.rx-toast-info .rx-toast-icon {
+
+  color: #06151d;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #67d7ff,
+                  #4285f4
+          );
+
+}
+
+
+@keyframes rxToastProgress {
+
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+
+}
+
+
+/* =========================================================
+   CUSTOM MESSAGE MODAL
+   ========================================================= */
+
+#rxMessageModal {
+
+  position: fixed;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 1000000;
+
+  visibility: hidden;
+
+  opacity: 0;
+
+  transition:
+          opacity .25s ease,
+          visibility .25s ease;
+
+}
+
+
+#rxMessageModal.active {
+
+  visibility: visible;
+
+  opacity: 1;
+
+}
+
+
+/* Dark glass background */
+
+.rx-modal-backdrop {
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+          rgba(2, 10, 15, .72);
+
+  backdrop-filter:
+          blur(9px);
+
+  -webkit-backdrop-filter:
+          blur(9px);
+
+}
+
+
+/* Modal card */
+
+.rx-modal-card {
+
+  position: relative;
+
+  width: min(
+          500px,
+          calc(100vw - 36px)
+  );
+
+  padding: 30px;
+
+  border-radius: 26px;
+
+  background:
+          linear-gradient(
+                  145deg,
+                  rgba(18, 42, 51, .98),
+                  rgba(7, 20, 27, .98)
+          );
+
+  border:
+          1px solid
+          rgba(103, 219, 131, .22);
+
+  box-shadow:
+
+          0 35px 100px
+          rgba(0,0,0,.65),
+
+          0 0 70px
+          rgba(66,133,244,.13),
+
+          inset 0 1px 0
+          rgba(255,255,255,.08);
+
+  transform:
+          translateY(18px)
+          scale(.94);
+
+  transition:
+          transform .28s cubic-bezier(
+                  .2,.8,.2,1
+          );
+
+}
+
+
+#rxMessageModal.active
+.rx-modal-card {
+
+  transform:
+          translateY(0)
+          scale(1);
+
+}
+
+
+/* Modal icon */
+
+.rx-modal-icon {
+
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 17px;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #4285f4,
+                  #34a853
+          );
+
+  color: white;
+
+  font-size: 25px;
+
+  box-shadow:
+          0 12px 32px
+          rgba(66,133,244,.25);
+
+}
+
+
+.rx-modal-title {
+
+  color: #ffffff;
+
+  font-size: 23px;
+
+  font-weight: 750;
+
+  letter-spacing: -.3px;
+
+}
+
+
+.rx-modal-subtitle {
+
+  margin-top: 6px;
+  margin-bottom: 20px;
+
+  color: #9fb6bf;
+
+  font-size: 14px;
+
+}
+
+
+/* Textarea */
+
+.rx-modal-input {
+
+  width: 100%;
+
+  min-height: 120px;
+
+  resize: vertical;
+
+  box-sizing: border-box;
+
+  padding: 15px 16px;
+
+  border-radius: 15px;
+
+  outline: none;
+
+  border:
+          1px solid
+          rgba(144,202,249,.20);
+
+  background:
+          rgba(4,16,22,.72);
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  transition:
+          border-color .2s ease,
+          box-shadow .2s ease,
+          background .2s ease;
+
+}
+
+
+.rx-modal-input::placeholder {
+
+  color: #718b95;
+
+}
+
+
+.rx-modal-input:focus {
+
+  border-color:
+          rgba(66,133,244,.75);
+
+  background:
+          rgba(8,25,33,.92);
+
+  box-shadow:
+          0 0 0 4px
+          rgba(66,133,244,.12),
+
+          0 0 30px
+          rgba(52,168,83,.08);
+
+}
+
+
+/* Character count */
+
+.rx-modal-counter {
+
+  text-align: right;
+
+  margin-top: 6px;
+
+  color: #718b95;
+
+  font-size: 11px;
+
+}
+
+
+/* Buttons */
+
+.rx-modal-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 22px;
+
+}
+
+
+.rx-modal-btn {
+
+  height: 46px;
+
+  padding:
+          0 18px;
+
+  border-radius: 13px;
+
+  border: 0;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+          transform .2s ease,
+          box-shadow .2s ease,
+          background .2s ease;
+
+}
+
+
+.rx-modal-btn:hover {
+
+  transform:
+          translateY(-2px);
+
+}
+
+
+.rx-modal-cancel {
+
+  color: #c4d3d8;
+
+  background:
+          rgba(255,255,255,.07);
+
+  border:
+          1px solid
+          rgba(255,255,255,.08);
+
+}
+
+
+.rx-modal-cancel:hover {
+
+  color: #ffffff;
+
+  background:
+          rgba(255,255,255,.12);
+
+}
+
+
+.rx-modal-send {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: #ffffff;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #5aa3ff,
+                  #4285f4 55%,
+                  #34a853
+          );
+
+  box-shadow:
+          0 10px 30px
+          rgba(66,133,244,.25);
+
+}
+
+
+.rx-modal-send:hover {
+
+  box-shadow:
+          0 15px 38px
+          rgba(66,133,244,.38);
+
+}
+
+
+.rx-send-arrow {
+
+  font-size: 18px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  #rxToastContainer {
+
+    top: 15px;
+    right: 15px;
+    left: 15px;
+
+    width: auto;
+
+  }
+
+
+  .rx-modal-card {
+
+    padding: 24px;
+
+    border-radius: 22px;
+
+  }
+
+
+  .rx-modal-actions {
+
+    flex-direction: column-reverse;
+
+  }
+
+
+  .rx-modal-btn {
+
+    width: 100%;
+
+  }
+
+}

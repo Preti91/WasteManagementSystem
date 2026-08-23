@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1">
+
+    <title>User Dashboard | RecycleX</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css">
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css">
+
+
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<nav
+        class="
+        glass
+        sticky
+        top-0
+        z-50
+        "
+>
+
+    <div
+            class="
+            max-w-7xl
+            mx-auto
+            px-6
+            py-4
+            flex
+            justify-between
+            "
+    >
+
+        <h1
+                class="
+                font-bold
+                text-green-400
+                text-xl
+                "
+        >
+
+            <span class="brand-mark" aria-hidden="true"></span> RECYCLEX
+
+        </h1>
+
+
+        <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+
+            <a
+                    href="/certificates.html"
+                    class="hidden sm:inline text-sm text-gray-400 hover:text-green-400 transition whitespace-nowrap"
+            >
+                🏅 Certificates
+            </a>
+
+            <div class="profile-chip">
+                <div class="profile-chip__avatar" data-user-initial>U</div>
+                <div class="profile-chip__text">
+                    <p class="profile-chip__name" data-user-name>User</p>
+                    <p class="profile-chip__email" data-user-email></p>
+                </div>
+            </div>
+
+            <button
+                    onclick="logout()"
+                    class="text-red-400 text-sm whitespace-nowrap"
+            >
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN DASHBOARD
+     ===================================================== -->
+
+<main
+        class="
+        max-w-7xl
+        mx-auto
+        px-6
+        py-10
+        "
+>
+
+
+    <!-- =================================================
+         WELCOME
+         ================================================= -->
+
+    <h1
+            class="
+            text-4xl
+            font-bold
+            "
+    >
+
+        Welcome,
+
+        <span
+                id="userName"
+                class="text-green-400"
+        >
+            User
+        </span>
+
+    </h1>
+
+
+    <p
+            class="
+            text-gray-400
+            mt-2
+            "
+    >
+
+        Your smart city waste control center
+
+    </p>
+
+
+
+    <!-- =================================================
+         STATISTICS
+         ================================================= -->
+
+    <div
+            class="
+            grid
+            md:grid-cols-4
+            gap-5
+            mt-10
+            "
+    >
+
+
+        <!-- REPORTS -->
+
+        <div
+                class="
+                glass
+                card-3d
+                rounded-2xl
+                p-6
+                "
+        >
+
+            <p class="text-gray-400">
+
+                Reports
+
+            </p>
+
+
+            <h2
+                    id="reportCount"
+                    class="
+                    text-4xl
+                    font-bold
+                    text-green-400
+                    mt-2
+                    "
+            >
+
+                0
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- RECYCLING -->
+
+        <div
+                class="
+                glass
+                card-3d
+                rounded-2xl
+                p-6
+                "
+        >
+
+            <p class="text-gray-400">
+
+                Recycling
+
+            </p>
+
+
+            <h2
+                    id="recyclingCount"
+                    class="
+                    text-4xl
+                    font-bold
+                    text-cyan-400
+                    mt-2
+                    "
+            >
+
+                0
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- REWARD POINTS -->
+
+        <div
+                class="
+                glass
+                card-3d
+                rounded-2xl
+                p-6
+                "
+        >
+
+            <p class="text-gray-400">
+
+                Reward Points
+
+            </p>
+
+
+            <h2
+                    id="rewardPoints"
+                    class="
+                    text-4xl
+                    font-bold
+                    text-yellow-400
+                    mt-2
+                    "
+            >
+
+                0
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div
+                class="
+                glass
+                card-3d
+                rounded-2xl
+                p-6
+                "
+        >
+
+            <p class="text-gray-400">
+
+                Notifications
+
+            </p>
+
+
+            <h2
+                    id="notificationCount"
+                    class="
+                    text-4xl
+                    font-bold
+                    text-purple-400
+                    mt-2
+                    "
+            >
+
+                0
+
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         DASHBOARD ERROR
+         ================================================= -->
+
+    <p
+            id="dashboardError"
+            class="
+            hidden
+            text-red-400
+            mt-4
+            "
+    >
+    </p>
+
+
+    <!-- =================================================
+         STATUS BREAKDOWN
+         ================================================= -->
+
+    <div
+            class="
+            grid
+            md:grid-cols-4
+            gap-5
+            mt-5
+            "
+    >
+
+        <!-- COMPLETED REPORTS -->
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-gray-400 text-sm">Completed Reports</p>
+
+            <h3
+                    id="completedReportCount"
+                    class="text-2xl font-bold text-green-400 mt-1"
+            >0</h3>
+
+        </div>
+
+        <!-- PENDING REPORTS -->
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-gray-400 text-sm">Pending Reports</p>
+
+            <h3
+                    id="pendingReportCount"
+                    class="text-2xl font-bold text-amber-400 mt-1"
+            >0</h3>
+
+        </div>
+
+        <!-- COMPLETED RECYCLING -->
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-gray-400 text-sm">Completed Recycling</p>
+
+            <h3
+                    id="completedRecyclingCount"
+                    class="text-2xl font-bold text-cyan-400 mt-1"
+            >0</h3>
+
+        </div>
+
+        <!-- PENDING RECYCLING -->
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-gray-400 text-sm">Pending Recycling</p>
+
+            <h3
+                    id="pendingRecyclingCount"
+                    class="text-2xl font-bold text-amber-400 mt-1"
+            >0</h3>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         QUICK ACTIONS
+         ================================================= -->
+
+    <section class="mt-10">
+
+
+        <h2
+                class="
+                text-2xl
+                font-bold
+                mb-5
+                "
+        >
+
+            Quick Actions
+
+        </h2>
+
+
+
+        <div
+                class="
+                grid
+                sm:grid-cols-2
+                md:grid-cols-3
+                lg:grid-cols-4
+                gap-5
+                "
+        >
+
+
+            <!-- =========================================
+                 REPORT GARBAGE
+                 ========================================= -->
+
+            <a
+                    href="/report.html"
+                    class="
+                    glass
+                    card-3d
+                    rounded-2xl
+                    p-6
+                    "
+            >
+
+                <div class="text-4xl">
+
+                    📍
+
+                </div>
+
+
+                <h3 class="font-bold mt-4">
+
+                    Report Garbage
+
+                </h3>
+
+
+                <p class="text-gray-400 text-sm mt-2">
+
+                    Report garbage with GPS location.
+
+                </p>
+
+            </a>
+
+
+
+            <!-- =========================================
+                 RECYCLING
+                 ========================================= -->
+
+            <a
+                    href="/recycling.html"
+                    class="
+                    glass
+                    card-3d
+                    rounded-2xl
+                    p-6
+                    "
+            >
+
+                <div class="text-4xl">
+
+                    ♻️
+
+                </div>
+
+
+                <h3 class="font-bold mt-4">
+
+                    Recycling
+
+                </h3>
+
+
+                <p class="text-gray-400 text-sm mt-2">
+
+                    Submit recyclable waste for recycling.
+
+                </p>
+
+            </a>
+
+
+
+            <!-- =========================================
+                 LIVE MAP
+                 ========================================= -->
+
+            <a
+                    href="/map.html"
+                    class="
+                    glass
+                    card-3d
+                    rounded-2xl
+                    p-6
+                    "
+            >
+
+                <div class="text-4xl">
+
+                    🗺️
+
+                </div>
+
+
+                <h3 class="font-bold mt-4">
+
+                    Live Map
+
+                </h3>
+
+
+                <p class="text-gray-400 text-sm mt-2">
+
+                    View waste locations.
+
+                </p>
+
+            </a>
+
+
+
+            <!-- =========================================
+                 AI ASSISTANT
+                 ========================================= -->
+
+            <a
+                    href="/chatbot.html"
+                    class="
+                    glass
+                    card-3d
+                    rounded-2xl
+                    p-6
+                    "
+            >
+
+                <div class="text-4xl">
+
+                    🤖
+
+                </div>
+
+
+                <h3 class="font-bold mt-4">
+
+                    AI Assistant
+
+                </h3>
+
+
+                <p class="text-gray-400 text-sm mt-2">
+
+                    Ask about waste and recycling.
+
+                </p>
+
+            </a>
+
+
+
+            <!-- =========================================
+                 NOTIFICATIONS
+                 ========================================= -->
+
+            <a
+                    href="/notifications.html"
+                    class="
+                    glass
+                    card-3d
+                    rounded-2xl
+                    p-6
+                    "
+            >
+
+                <div class="text-4xl">
+
+                    🔔
+
+                </div>
+
+
+                <h3 class="font-bold mt-4">
+
+                    Notifications
+
+                </h3>
+
+
+                <p class="text-gray-400 text-sm mt-2">
+
+                    View your alerts.
+
+                </p>
+
+            </a>
+
+
+
+            <!-- =========================================
+                 REWARDS
+                 ========================================= -->
+
+            <a
+                    href="/rewards.html"
+                    class="
+                    glass
+                    card-3d
+                    rounded-2xl
+                    p-6
+                    "
+            >
+
+                <div class="text-4xl">
+
+                    🎁
+
+                </div>
+
+
+                <h3 class="font-bold mt-4">
+
+                    Rewards
+
+                </h3>
+
+
+                <p class="text-gray-400 text-sm mt-2">
+
+                    View and redeem your eco points.
+
+                </p>
+
+            </a>
+
+
+
+            <!-- =========================================
+                 LEADERBOARD
+                 ========================================= -->
+
+            <a
+                    href="/leaderboard.html"
+                    class="
+                    glass
+                    card-3d
+                    rounded-2xl
+                    p-6
+                    "
+            >
+
+                <div class="text-4xl">
+
+                    🏆
+
+                </div>
+
+
+                <h3 class="font-bold mt-4">
+
+                    Leaderboard
+
+                </h3>
+
+
+                <p class="text-gray-400 text-sm mt-2">
+
+                    See how you rank against other eco contributors.
+
+                </p>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     DASHBOARD JAVASCRIPT
+
+     dashboard.js waits for DOMContentLoaded and loads
+     api.js + common.js first, so it must be included
+     AFTER those two scripts, not before.
+     ===================================================== -->
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/dashboard.js"></script>
+
+</body>
+
+</html>

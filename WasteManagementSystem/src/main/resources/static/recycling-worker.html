@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RecycleX | Recycling Worker</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        recycle: {
+                            50: "#ecfdf5",
+                            100: "#d1fae5",
+                            200: "#a7f3d0",
+                            300: "#6ee7b7",
+                            400: "#34d399",
+                            500: "#10b981",
+                            600: "#059669",
+                            700: "#047857",
+                            800: "#065f46",
+                            900: "#064e3b"
+                        }
+                    },
+
+                    boxShadow: {
+                        glow:
+                            "0 0 40px rgba(16,185,129,.18)",
+
+                        card:
+                            "0 20px 60px rgba(0,0,0,.25)"
+                    },
+
+                    animation: {
+                        float:
+                            "float 5s ease-in-out infinite",
+
+                        pulseSlow:
+                            "pulse 3s ease-in-out infinite"
+                    },
+
+                    keyframes: {
+
+                        float: {
+
+                            "0%, 100%": {
+                                transform:
+                                    "translateY(0)"
+                            },
+
+                            "50%": {
+                                transform:
+                                    "translateY(-8px)"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Google Font -->
+    <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com"
+    >
+
+    <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin
+    >
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                    "Inter",
+                    sans-serif;
+
+            background:
+                    radial-gradient(
+                            circle at 10% 10%,
+                            rgba(16,185,129,.12),
+                            transparent 30%
+                    ),
+                    radial-gradient(
+                            circle at 90% 20%,
+                            rgba(14,165,233,.10),
+                            transparent 30%
+                    ),
+                    #07111a;
+
+            color: #f8fafc;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           BACKGROUND
+           ===================================================== */
+
+        .background-orb {
+
+            position: fixed;
+
+            border-radius: 9999px;
+
+            filter: blur(80px);
+
+            pointer-events: none;
+
+            opacity: .18;
+
+            z-index: -1;
+        }
+
+        .orb-one {
+
+            width: 260px;
+            height: 260px;
+
+            background: #10b981;
+
+            top: 100px;
+            left: -80px;
+        }
+
+        .orb-two {
+
+            width: 300px;
+            height: 300px;
+
+            background: #0ea5e9;
+
+            right: -100px;
+            bottom: 80px;
+        }
+
+
+        /* =====================================================
+           GLASS
+           ===================================================== */
+
+        .glass {
+
+            background:
+                    rgba(15, 23, 42, .72);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.08);
+
+            backdrop-filter:
+                    blur(18px);
+
+            -webkit-backdrop-filter:
+                    blur(18px);
+
+            box-shadow:
+                    0 20px 60px
+                    rgba(0,0,0,.18);
+        }
+
+
+        .glass-light {
+
+            background:
+                    rgba(255,255,255,.045);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.08);
+        }
+
+
+        /* =====================================================
+           NAVBAR
+           ===================================================== */
+
+        .nav-link {
+
+            color:
+                    #94a3b8;
+
+            transition:
+                    .2s ease;
+        }
+
+        .nav-link:hover {
+
+            color:
+                    #34d399;
+        }
+
+
+        /* =====================================================
+           STATUS
+           ===================================================== */
+
+        .status {
+
+            display:
+                    inline-flex;
+
+            align-items:
+                    center;
+
+            gap:
+                    7px;
+
+            padding:
+                    6px 11px;
+
+            border-radius:
+                    999px;
+
+            font-size:
+                    11px;
+
+            font-weight:
+                    800;
+
+            letter-spacing:
+                    .04em;
+
+            background:
+                    rgba(16,185,129,.10);
+
+            color:
+                    #6ee7b7;
+
+            border:
+                    1px solid
+                    rgba(16,185,129,.22);
+        }
+
+
+        .status::before {
+
+            content: "";
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius:
+                    50%;
+
+            background:
+                    currentColor;
+        }
+
+
+        /* =====================================================
+           TASK CARD
+           ===================================================== */
+
+        .task-card {
+
+            background:
+                    rgba(15,23,42,.72);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.08);
+
+            border-radius:
+                    24px;
+
+            padding:
+                    22px;
+
+            transition:
+                    .25s ease;
+
+            position:
+                    relative;
+
+            overflow:
+                    hidden;
+        }
+
+
+        .task-card::before {
+
+            content: "";
+
+            position:
+                    absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 3px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            #10b981,
+                            #06b6d4
+                    );
+
+            opacity: .8;
+        }
+
+
+        .task-card:hover {
+
+            transform:
+                    translateY(-4px);
+
+            border-color:
+                    rgba(52,211,153,.25);
+
+            box-shadow:
+                    0 20px 60px
+                    rgba(0,0,0,.25);
+        }
+
+
+        /* =====================================================
+           BUTTONS
+           ===================================================== */
+
+        .action {
+
+            border: none;
+
+            border-radius:
+                    12px;
+
+            padding:
+                    10px 15px;
+
+            font-size:
+                    13px;
+
+            font-weight:
+                    700;
+
+            cursor:
+                    pointer;
+
+            transition:
+                    .2s ease;
+
+            display:
+                    inline-flex;
+
+            align-items:
+                    center;
+
+            justify-content:
+                    center;
+
+            gap:
+                    8px;
+        }
+
+
+        .action:hover {
+
+            transform:
+                    translateY(-1px);
+        }
+
+
+        .action:active {
+
+            transform:
+                    translateY(0);
+        }
+
+
+        .primary {
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #10b981,
+                            #059669
+                    );
+
+            color:
+                    white;
+
+            box-shadow:
+                    0 10px 30px
+                    rgba(16,185,129,.18);
+        }
+
+
+        .success {
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #22c55e,
+                            #16a34a
+                    );
+
+            color:
+                    white;
+        }
+
+
+        .secondary {
+
+            background:
+                    rgba(14,165,233,.10);
+
+            border:
+                    1px solid
+                    rgba(14,165,233,.25);
+
+            color:
+                    #7dd3fc;
+        }
+
+
+        .danger {
+
+            background:
+                    rgba(239,68,68,.10);
+
+            border:
+                    1px solid
+                    rgba(239,68,68,.25);
+
+            color:
+                    #fca5a5;
+        }
+
+
+        .muted-button {
+
+            background:
+                    rgba(255,255,255,.05);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.08);
+
+            color:
+                    #cbd5e1;
+        }
+
+
+        /* =====================================================
+           STAT CARD
+           ===================================================== */
+
+        .stat-card {
+
+            border-radius:
+                    22px;
+
+            padding:
+                    20px;
+
+            background:
+                    rgba(15,23,42,.65);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.08);
+
+            transition:
+                    .2s ease;
+        }
+
+
+        .stat-card:hover {
+
+            transform:
+                    translateY(-3px);
+        }
+
+
+        /* =====================================================
+           MAP
+           ===================================================== */
+
+        #recyclingWorkerMap {
+
+            width: 100%;
+
+            height: 520px;
+
+            border-radius:
+                    24px;
+
+            overflow:
+                    hidden;
+
+            background:
+                    #0f172a;
+        }
+
+
+        .map-overlay {
+
+            position:
+                    absolute;
+
+            top: 18px;
+
+            left: 18px;
+
+            z-index: 5;
+
+            background:
+                    rgba(15,23,42,.90);
+
+            border:
+                    1px solid
+                    rgba(255,255,255,.10);
+
+            backdrop-filter:
+                    blur(12px);
+
+            border-radius:
+                    16px;
+
+            padding:
+                    13px 16px;
+        }
+
+
+        /* =====================================================
+           ROUTE INFO
+           ===================================================== */
+
+        .route-box {
+
+            background:
+                    rgba(14,165,233,.06);
+
+            border:
+                    1px solid
+                    rgba(14,165,233,.15);
+
+            border-radius:
+                    18px;
+
+            padding:
+                    16px;
+        }
+
+
+        /* =====================================================
+           NOTICE
+           ===================================================== */
+
+        .notice {
+
+            padding:
+                    11px 14px;
+
+            border-radius:
+                    12px;
+
+            font-size:
+                    13px;
+
+            font-weight:
+                    600;
+        }
+
+
+        .waiting {
+
+            background:
+                    rgba(234,179,8,.08);
+
+            color:
+                    #fde68a;
+
+            border:
+                    1px solid
+                    rgba(234,179,8,.15);
+        }
+
+
+        .done {
+
+            background:
+                    rgba(34,197,94,.08);
+
+            color:
+                    #86efac;
+
+            border:
+                    1px solid
+                    rgba(34,197,94,.15);
+        }
+
+
+        .rejected {
+
+            background:
+                    rgba(239,68,68,.08);
+
+            color:
+                    #fca5a5;
+
+            border:
+                    1px solid
+                    rgba(239,68,68,.15);
+        }
+
+
+        /* =====================================================
+           ILS
+       DETA============================================= */
+
+        .details {
+
+            display:
+                    flex;
+
+            flex-wrap:
+                    wrap;
+
+            gap:
+                    8px;
+
+            margin-top:
+                    18px;
+        }
+
+
+        .details span {
+
+            padding:
+                    7px 10px;
+
+            border-radius:
+                    10px;
+
+            background:
+                    rgba(255,255,255,.04);
+
+            color:
+                    #94a3b8;
+
+            font-size:
+                    11px;
+        }
+
+
+        .actions {
+
+            display:
+                    flex;
+
+            flex-wrap:
+                    wrap;
+
+            gap:
+                    9px;
+
+            margin-top:
+                    18px;
+        }
+
+
+        /* =====================================================
+           SCROLLBAR
+           ===================================================== */
+
+        ::-webkit-scrollbar {
+
+            width: 8px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+
+            background:
+                    #07111a;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background:
+                    #1e293b;
+
+            border-radius:
+                    999px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media(max-width: 768px) {
+
+            #recyclingWorkerMap {
+
+                height: 400px;
+            }
+
+            .actions {
+
+                flex-direction:
+                        column;
+            }
+
+            .action {
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body>
+
+<!-- Background -->
+<div class="background-orb orb-one"></div>
+<div class="background-orb orb-two"></div>
+
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<header
+        class="
+            sticky
+            top-0
+            z-50
+            border-b
+            border-white/5
+            bg-slate-950/80
+            backdrop-blur-xl
+        "
+>
+
+    <div
+            class="
+                max-w-7xl
+                mx-auto
+                px-4
+                sm:px-6
+                lg:px-8
+                h-20
+                flex
+                items-center
+                justify-between
+            "
+    >
+
+        <!-- Logo -->
+
+        <a
+                href="/user-dashboard.html"
+                class="flex items-center gap-3"
+        >
+
+            <div
+                    class="
+                        w-11
+                        h-11
+                        rounded-2xl
+                        bg-gradient-to-br
+                        from-emerald-400
+                        to-cyan-500
+                        flex
+                        items-center
+                        justify-center
+                        shadow-glow
+                    "
+            >
+
+                    <span class="text-xl">
+                        ♻️
+                    </span>
+
+            </div>
+
+
+            <div>
+
+                <div
+                        class="
+                            font-extrabold
+                            text-lg
+                            tracking-tight
+                        "
+                >
+                    RecycleX
+                </div>
+
+                <div
+                        class="
+                            text-[10px]
+                            text-emerald-400
+                            font-bold
+                            tracking-widest
+                            uppercase
+                        "
+                >
+                    Worker Portal
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <!-- Desktop navigation -->
+
+        <nav
+                class="
+                    hidden
+                    md:flex
+                    items-center
+                    gap-7
+                "
+        >
+
+            <a
+                    href="#dashboard"
+                    class="nav-link text-sm font-medium"
+            >
+                Dashboard
+            </a>
+
+            <a
+                    href="#tasks"
+                    class="nav-link text-sm font-medium"
+            >
+                My Tasks
+            </a>
+
+            <a
+                    href="#map-section"
+                    class="nav-link text-sm font-medium"
+            >
+                Map & Route
+            </a>
+
+            <a
+                    href="#tracking"
+                    class="nav-link text-sm font-medium"
+            >
+                Tracking
+            </a>
+
+        </nav>
+
+
+        <!-- User -->
+
+        <div
+                class="
+                    flex
+                    items-center
+                    gap-3
+                "
+        >
+
+            <div
+                    class="
+                        hidden
+                        sm:block
+                        text-right
+                    "
+            >
+
+                <p
+                        data-user-name
+                        class="
+                            text-sm
+                            font-semibold
+                        "
+                >
+                    Recycling Worker
+                </p>
+
+                <p
+                        data-user-email
+                        class="
+                            text-[11px]
+                            text-gray-500
+                            truncate
+                            max-w-[180px]
+                        "
+                ></p>
+
+                <p
+                        class="
+                            text-[10px]
+                            text-emerald-400
+                            font-bold
+                            uppercase
+                            tracking-wider
+                        "
+                >
+                    RECYCLING WORKER
+                </p>
+
+            </div>
+
+
+            <div
+                    class="
+                        w-10
+                        h-10
+                        rounded-full
+                        bg-emerald-500/15
+                        border
+                        border-emerald-400/20
+                        flex
+                        items-center
+                        justify-center
+                    "
+            >
+                👷
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main
+        id="dashboard"
+        class="
+            max-w-7xl
+            mx-auto
+            px-4
+            sm:px-6
+            lg:px-8
+            py-8
+        "
+>
+
+
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <section
+            class="
+                glass
+                rounded-[28px]
+                p-6
+                md:p-8
+                mb-7
+                relative
+                overflow-hidden
+            "
+    >
+
+        <div
+                class="
+                    absolute
+                    -right-20
+                    -top-20
+                    w-64
+                    h-64
+                    rounded-full
+                    bg-emerald-500/10
+                    blur-3xl
+                "
+        ></div>
+
+
+        <div
+                class="
+                    relative
+                    flex
+                    flex-col
+                    lg:flex-row
+                    lg:items-center
+                    lg:justify-between
+                    gap-6
+                "
+        >
+
+            <div>
+
+                <div
+                        class="
+                            inline-flex
+                            items-center
+                            gap-2
+                            px-3
+                            py-1.5
+                            rounded-full
+                            bg-emerald-400/10
+                            border
+                            border-emerald-400/20
+                            text-emerald-300
+                            text-xs
+                            font-bold
+                            uppercase
+                            tracking-wider
+                        "
+                >
+
+                        <span
+                                class="
+                                w-2
+                                h-2
+                                rounded-full
+                                bg-emerald-400
+                                animate-pulse
+                            "
+                        ></span>
+
+                    Worker Online
+
+                </div>
+
+
+                <h1
+                        class="
+                            text-3xl
+                            md:text-4xl
+                            font-extrabold
+                            mt-4
+                            tracking-tight
+                        "
+                >
+                    Recycling Worker Dashboard
+                </h1>
+
+
+                <p
+                        class="
+                            text-slate-400
+                            mt-3
+                            max-w-2xl
+                            leading-7
+                        "
+                >
+                    View assigned recycling pickups,
+                    start your work, navigate to the
+                    user's pickup location and submit
+                    completed work for admin approval.
+                </p>
+
+            </div>
+
+
+            <div
+                    class="
+                        flex
+                        flex-wrap
+                        gap-3
+                    "
+            >
+
+                <button
+                        class="action secondary"
+                        onclick="getCurrentLocation()"
+                >
+                    📍 My Location
+                </button>
+
+
+                <button
+                        class="action primary"
+                        onclick="loadRecyclingTasks()"
+                >
+                    ↻ Refresh Tasks
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         STATISTICS
+         ================================================= -->
+
+    <section
+            class="
+                grid
+                grid-cols-2
+                lg:grid-cols-4
+                gap-4
+                mb-8
+            "
+    >
+
+        <!-- Assigned -->
+
+        <div class="stat-card">
+
+            <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+            >
+
+                <div
+                        class="
+                            text-xs
+                            text-slate-400
+                            font-semibold
+                            uppercase
+                            tracking-wider
+                        "
+                >
+                    Assigned
+                </div>
+
+                <div
+                        class="
+                            w-10
+                            h-10
+                            rounded-xl
+                            bg-blue-400/10
+                            flex
+                            items-center
+                            justify-center
+                        "
+                >
+                    📋
+                </div>
+
+            </div>
+
+
+            <div
+                    id="assignedCount"
+                    class="
+                        text-3xl
+                        font-extrabold
+                        mt-4
+                    "
+            >
+                0
+            </div>
+
+
+            <p
+                    class="
+                        text-xs
+                        text-slate-500
+                        mt-1
+                    "
+            >
+                Waiting to start
+            </p>
+
+        </div>
+
+
+        <!-- In Progress -->
+
+        <div class="stat-card">
+
+            <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+            >
+
+                <div
+                        class="
+                            text-xs
+                            text-slate-400
+                            font-semibold
+                            uppercase
+                            tracking-wider
+                        "
+                >
+                    In Progress
+                </div>
+
+                <div
+                        class="
+                            w-10
+                            h-10
+                            rounded-xl
+                            bg-yellow-400/10
+                            flex
+                            items-center
+                            justify-center
+                        "
+                >
+                    🚚
+                </div>
+
+            </div>
+
+
+            <div
+                    id="progressCount"
+                    class="
+                        text-3xl
+                        font-extrabold
+                        mt-4
+                        text-yellow-300
+                    "
+            >
+                0
+            </div>
+
+
+            <p
+                    class="
+                        text-xs
+                        text-slate-500
+                        mt-1
+                    "
+            >
+                Pickup happening
+            </p>
+
+        </div>
+
+
+        <!-- Awaiting -->
+
+        <div class="stat-card">
+
+            <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+            >
+
+                <div
+                        class="
+                            text-xs
+                            text-slate-400
+                            font-semibold
+                            uppercase
+                            tracking-wider
+                        "
+                >
+                    Awaiting
+                </div>
+
+                <div
+                        class="
+                            w-10
+                            h-10
+                            rounded-xl
+                            bg-orange-400/10
+                            flex
+                            items-center
+                            justify-center
+                        "
+                >
+                    ⏳
+                </div>
+
+            </div>
+
+
+            <div
+                    id="pendingCount"
+                    class="
+                        text-3xl
+                        font-extrabold
+                        mt-4
+                        text-orange-300
+                    "
+            >
+                0
+            </div>
+
+
+            <p
+                    class="
+                        text-xs
+                        text-slate-500
+                        mt-1
+                    "
+            >
+                Admin approval
+            </p>
+
+        </div>
+
+
+        <!-- Completed -->
+
+        <div class="stat-card">
+
+            <div
+                    class="
+                        flex
+                        items-center
+                        justify-between
+                    "
+            >
+
+                <div
+                        class="
+                            text-xs
+                            text-slate-400
+                            font-semibold
+                            uppercase
+                            tracking-wider
+                        "
+                >
+                    Completed
+                </div>
+
+                <div
+                        class="
+                            w-10
+                            h-10
+                            rounded-xl
+                            bg-emerald-400/10
+                            flex
+                            items-center
+                            justify-center
+                        "
+                >
+                    ✓
+                </div>
+
+            </div>
+
+
+            <div
+                    id="completedCount"
+                    class="
+                        text-3xl
+                        font-extrabold
+                        mt-4
+                        text-emerald-300
+                    "
+            >
+                0
+            </div>
+
+
+            <p
+                    class="
+                        text-xs
+                        text-slate-500
+                        mt-1
+                    "
+            >
+                Approved work
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         TASK SECTION
+         ================================================= -->
+
+    <section
+            id="tasks"
+            class="mb-8"
+    >
+
+        <div
+                class="
+                    flex
+                    flex-col
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                    gap-4
+                    mb-5
+                "
+        >
+
+            <div>
+
+                <p
+                        class="
+                            text-emerald-400
+                            text-xs
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                >
+                    Work Queue
+                </p>
+
+                <h2
+                        class="
+                            text-2xl
+                            font-extrabold
+                            mt-1
+                        "
+                >
+                    My Recycling Tasks
+                </h2>
+
+            </div>
+
+
+            <button
+                    class="action muted-button"
+                    onclick="loadRecyclingTasks()"
+            >
+                ↻ Refresh
+            </button>
+
+        </div>
+
+
+        <!-- Dynamic task cards -->
+
+        <div
+                id="taskContainer"
+                class="
+                    grid
+                    grid-cols-1
+                    lg:grid-cols-2
+                    gap-5
+                "
+        >
+
+            <div
+                    class="
+                        glass
+                        rounded-3xl
+                        p-8
+                        text-slate-400
+                    "
+            >
+                Loading recycling tasks...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         MAP SECTION
+         ================================================= -->
+
+    <section
+            id="map-section"
+            class="mb-8"
+    >
+
+        <div
+                class="
+                    flex
+                    flex-col
+                    sm:flex-row
+                    sm:items-end
+                    sm:justify-between
+                    gap-4
+                    mb-5
+                "
+        >
+
+            <div>
+
+                <p
+                        class="
+                            text-cyan-400
+                            text-xs
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                >
+                    Navigation
+                </p>
+
+                <h2
+                        class="
+                            text-2xl
+                            font-extrabold
+                            mt-1
+                        "
+                >
+                    Pickup Location & Route
+                </h2>
+
+                <p
+                        class="
+                            text-sm
+                            text-slate-500
+                            mt-2
+                        "
+                >
+                    Select an assigned task to display
+                    the route from your current location
+                    to the user's pickup destination.
+                </p>
+
+            </div>
+
+
+            <div
+                    class="
+                        flex
+                        flex-wrap
+                        gap-2
+                    "
+            >
+
+                <button
+                        class="action secondary"
+                        onclick="getCurrentLocation()"
+                >
+                    📍 My Location
+                </button>
+
+
+                <button
+                        class="action primary"
+                        onclick="startTracking()"
+                >
+                    ▶ Start Tracking
+                </button>
+
+
+                <button
+                        class="action muted-button"
+                        onclick="stopTracking()"
+                >
+                    ■ Stop Tracking
+                </button>
+
+
+                <button
+                        class="action danger"
+                        onclick="clearRoute()"
+                >
+                    Clear Route
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+                class="
+                    glass
+                    rounded-[28px]
+                    p-3
+                    md:p-4
+                "
+        >
+
+            <div
+                    class="
+                        relative
+                    "
+            >
+
+                <div id="recyclingWorkerMap" class="w-full h-[500px] rounded-2xl overflow-hidden" >
+                </div>
+
+
+                <!-- Map overlay -->
+
+                <div
+                        class="
+                            map-overlay
+                        "
+                >
+
+                    <div
+                            class="
+                                text-[10px]
+                                uppercase
+                                tracking-widest
+                                text-slate-500
+                                font-bold
+                            "
+                    >
+                        Selected Task
+                    </div>
+
+
+                    <div
+                            id="selectedTask"
+                            class="
+                                text-sm
+                                font-bold
+                                mt-1
+                            "
+                    >
+                        None
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Map controls -->
+
+            <div
+                    class="
+                        grid
+                        grid-cols-1
+                        sm:grid-cols-3
+                        gap-3
+                        mt-4
+                    "
+            >
+
+                <button
+                        class="
+                            action
+                            secondary
+                            w-full
+                        "
+                        onclick="getCurrentLocation()"
+                >
+                    📍 Get My Location
+                </button>
+
+
+                <button
+                        class="
+                            action
+                            primary
+                            w-full
+                        "
+                        onclick="startTracking()"
+                >
+                    🛰 Start Live GPS
+                </button>
+
+
+                <button
+                        class="
+                            action
+                            muted-button
+                            w-full
+                        "
+                        onclick="stopTracking()"
+                >
+                    ⛔ Stop GPS
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ROUTE INFORMATION
+         ================================================= -->
+
+    <section
+            id="tracking"
+            class="mb-8"
+    >
+
+        <div
+                class="
+                    grid
+                    grid-cols-1
+                    md:grid-cols-2
+                    lg:grid-cols-4
+                    gap-4
+                "
+        >
+
+            <!-- GPS -->
+
+            <div
+                    class="
+                        route-box
+                    "
+            >
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            uppercase
+                            tracking-widest
+                            font-bold
+                        "
+                >
+                    GPS Status
+                </p>
+
+
+                <p
+                        id="locationStatus"
+                        class="
+                            mt-2
+                            text-sm
+                            text-slate-200
+                            font-semibold
+                        "
+                >
+                    GPS tracking is stopped.
+                </p>
+
+            </div>
+
+
+            <!-- Distance -->
+
+            <div
+                    class="
+                        route-box
+                    "
+            >
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            uppercase
+                            tracking-widest
+                            font-bold
+                        "
+                >
+                    Distance
+                </p>
+
+
+                <p
+                        id="routeDistance"
+                        class="
+                            mt-2
+                            text-2xl
+                            font-extrabold
+                        "
+                >
+                    —
+                </p>
+
+            </div>
+
+
+            <!-- Time -->
+
+            <div
+                    class="
+                        route-box
+                    "
+            >
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            uppercase
+                            tracking-widest
+                            font-bold
+                        "
+                >
+                    Estimated Time
+                </p>
+
+
+                <p
+                        id="routeDuration"
+                        class="
+                            mt-2
+                            text-2xl
+                            font-extrabold
+                        "
+                >
+                    —
+                </p>
+
+            </div>
+
+
+            <!-- Route -->
+
+            <div
+                    class="
+                        route-box
+                    "
+            >
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            uppercase
+                            tracking-widest
+                            font-bold
+                        "
+                >
+                    Route Status
+                </p>
+
+
+                <p
+                        id="routeStatus"
+                        class="
+                            mt-2
+                            text-sm
+                            text-emerald-300
+                            font-semibold
+                        "
+                >
+                    Waiting
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         WORKFLOW INFO
+         ================================================= -->
+
+    <section
+            class="
+                glass
+                rounded-[28px]
+                p-6
+                md:p-8
+                mb-10
+            "
+    >
+
+        <div class="mb-6">
+
+            <p
+                    class="
+                        text-emerald-400
+                        text-xs
+                        font-bold
+                        uppercase
+                        tracking-widest
+                    "
+            >
+                Recycling Workflow
+            </p>
+
+            <h2
+                    class="
+                        text-2xl
+                        font-extrabold
+                        mt-1
+                    "
+            >
+                How Your Task Progresses
+            </h2>
+
+        </div>
+
+
+        <div
+                class="
+                    grid
+                    grid-cols-1
+                    md:grid-cols-5
+                    gap-4
+                "
+        >
+
+            <!-- Step 1 -->
+
+            <div
+                    class="
+                        glass-light
+                        rounded-2xl
+                        p-5
+                    "
+            >
+
+                <div
+                        class="
+                            text-2xl
+                            mb-3
+                        "
+                >
+                    📋
+                </div>
+
+                <p
+                        class="
+                            text-xs
+                            text-emerald-400
+                            font-bold
+                        "
+                >
+                    STEP 1
+                </p>
+
+                <h3
+                        class="
+                            font-bold
+                            mt-1
+                        "
+                >
+                    Assigned
+                </h3>
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            mt-2
+                        "
+                >
+                    Admin assigns the recycling
+                    pickup to you.
+                </p>
+
+            </div>
+
+
+            <!-- Step 2 -->
+
+            <div
+                    class="
+                        glass-light
+                        rounded-2xl
+                        p-5
+                    "
+            >
+
+                <div
+                        class="
+                            text-2xl
+                            mb-3
+                        "
+                >
+                    🚚
+                </div>
+
+                <p
+                        class="
+                            text-xs
+                            text-emerald-400
+                            font-bold
+                        "
+                >
+                    STEP 2
+                </p>
+
+                <h3
+                        class="
+                            font-bold
+                            mt-1
+                        "
+                >
+                    Start Pickup
+                </h3>
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            mt-2
+                        "
+                >
+                    Start the task and navigate
+                    to the destination.
+                </p>
+
+            </div>
+
+
+            <!-- Step 3 -->
+
+            <div
+                    class="
+                        glass-light
+                        rounded-2xl
+                        p-5
+                    "
+            >
+
+                <div
+                        class="
+                            text-2xl
+                            mb-3
+                        "
+                >
+                    📍
+                </div>
+
+                <p
+                        class="
+                            text-xs
+                            text-emerald-400
+                            font-bold
+                        "
+                >
+                    STEP 3
+                </p>
+
+                <h3
+                        class="
+                            font-bold
+                            mt-1
+                        "
+                >
+                    Collect
+                </h3>
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            mt-2
+                        "
+                >
+                    Reach the user's pickup
+                    location and collect waste.
+                </p>
+
+            </div>
+
+
+            <!-- Step 4 -->
+
+            <div
+                    class="
+                        glass-light
+                        rounded-2xl
+                        p-5
+                    "
+            >
+
+                <div
+                        class="
+                            text-2xl
+                            mb-3
+                        "
+                >
+                    ✓
+                </div>
+
+                <p
+                        class="
+                            text-xs
+                            text-emerald-400
+                            font-bold
+                        "
+                >
+                    STEP 4
+                </p>
+
+                <h3
+                        class="
+                            font-bold
+                            mt-1
+                        "
+                >
+                    Complete
+                </h3>
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            mt-2
+                        "
+                >
+                    Submit completion to the
+                    administrator.
+                </p>
+
+            </div>
+
+
+            <!-- Step 5 -->
+
+            <div
+                    class="
+                        glass-light
+                        rounded-2xl
+                        p-5
+                    "
+            >
+
+                <div
+                        class="
+                            text-2xl
+                            mb-3
+                        "
+                >
+                    🏆
+                </div>
+
+                <p
+                        class="
+                            text-xs
+                            text-emerald-400
+                            font-bold
+                        "
+                >
+                    STEP 5
+                </p>
+
+                <h3
+                        class="
+                            font-bold
+                            mt-1
+                        "
+                >
+                    Approval
+                </h3>
+
+                <p
+                        class="
+                            text-xs
+                            text-slate-500
+                            mt-2
+                        "
+                >
+                    Admin approves the task and
+                    the user receives notification.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         FOOTER
+         ================================================= -->
+
+    <footer
+            class="
+                border-t
+                border-white/5
+                pt-7
+                pb-10
+                text-center
+            "
+    >
+
+        <p
+                class="
+                    text-xs
+                    text-slate-600
+                "
+        >
+            RecycleX Waste Management System
+        </p>
+
+        <p
+                class="
+                    text-[10px]
+                    text-slate-700
+                    mt-1
+                "
+        >
+            Recycling Worker Portal
+        </p>
+
+    </footer>
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<!-- API functions -->
+<script src="/js/api.js"></script>
+
+
+<!-- Shared functions -->
+<script src="/js/common.js"></script>
+
+
+<!-- Recycling worker functions -->
+<script src="/js/recycling-worker.js"></script>
+
+
+
+
+<script
+        async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOn17cHqIKrBpArmhVeH19bBMpgBEFDQ&loading=async&callback=initRecyclingWorkerMap">
+</script>
+
+</body>
+
+</html>
+

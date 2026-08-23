@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+                        cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+                        amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+                    },
+                    fontFamily: {
+                        sans: ['"DM Sans"','sans-serif'],
+                        display: ['"Space Grotesk"','sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>
+        RecycleX | Smart Waste Management
+    </title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css">
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css">
+
+</head>
+
+
+<body class="grid-bg">
+
+
+<!-- NAVBAR -->
+
+<nav
+        class="
+        fixed
+        top-0
+        left-0
+        w-full
+        z-50
+        glass
+   ">
+
+    <div
+            class="
+            max-w-7xl
+            mx-auto
+            px-6
+            py-4
+            flex
+            justify-between
+            items-center
+        ">
+
+        <a
+                href="/index.html"
+                class="
+                text-2xl
+                font-bold
+                font-[Orbitron]
+                text-green-400
+            ">
+
+            <span class="brand-mark" aria-hidden="true"></span> RECYCLE<span
+                class="text-cyan-400"
+        >X</span>
+
+        </a>
+
+
+        <div
+                class="
+                hidden
+                md:flex
+                gap-8
+                items-center
+            ">
+
+            <a
+                    href="/index.html"
+                    class="text-white hover:text-green-400"
+            >
+                Home
+            </a>
+
+            <a
+                    href="/map.html"
+                    class="text-white hover:text-green-400"
+            >
+                Live Map
+            </a>
+
+            <a
+                    href="/login.html"
+                    class="
+                    eco-button
+                    px-5
+                    py-2
+                "
+            >
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- HERO -->
+
+<section
+        class="
+        min-h-screen
+        flex
+        items-center
+        pt-24
+    ">
+
+    <div
+            class="
+            max-w-7xl
+            mx-auto
+            px-6
+            grid
+            lg:grid-cols-2
+            gap-16
+            items-center
+        ">
+
+
+        <!-- LEFT -->
+
+        <div>
+
+            <div
+                    class="
+                    inline-block
+                    glass
+                    px-5
+                    py-2
+                    rounded-full
+                    text-green-400
+                    text-base
+                    mb-6
+                ">
+
+                ● SMART CITY WASTE INTELLIGENCE
+
+            </div>
+
+
+            <h1
+                    class="
+                    text-5xl
+                    md:text-7xl
+                    font-bold
+                    text-green-800
+                ">
+
+                Build a
+
+                <span
+                        class="
+                        text-green-600
+                        text-glow
+                    "
+                >
+                    Cleaner
+                </span>
+
+                Future.
+
+            </h1>
+
+
+            <p
+                    class="
+                    mt-6
+                    text-slate-400
+                    text-lg
+                    leading-relaxed
+                    max-w-xl
+                ">
+
+                Report garbage,
+                locate waste dumps,
+                request recycling pickup,
+                track collection teams
+                and use AI to understand
+                your waste.
+
+            </p>
+
+
+            <div
+                    class="
+                    flex
+                    flex-wrap
+                    gap-4
+                    mt-8
+                ">
+
+                <a
+                        href="/register.html"
+                        class="eco-button"
+                >
+                    Start Recycling →
+                </a>
+
+                <a
+                        href="/map.html"
+                        class="
+                        px-6
+                        py-3
+                        rounded-xl
+                        border
+                        text-green-500
+                        border-green-400/20
+                        hover:bg-green-400/10
+                    "
+                >
+                    Explore Map
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 3D -->
+
+        <div
+                class="
+                flex
+                justify-center
+                items-center
+            ">
+
+            <div
+                    class="
+                    globe-container
+                    float
+                ">
+
+                <div
+                        class="globe-ring"
+                ></div>
+
+                <div
+                        class="globe"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- FEATURES -->
+
+<section
+        class="
+        max-w-7xl
+        mx-auto
+        px-6
+        py-24
+    ">
+
+    <div
+            class="
+            grid
+            md:grid-cols-3
+            gap-6
+        ">
+
+
+        <div
+                class="
+                glass
+                card-3d
+                rounded-3xl
+                p-8
+            ">
+
+            <div
+                    class="
+                    text-5xl
+                    mb-5
+                "
+            >
+                📍
+            </div>
+
+            <h3
+                    class="
+                    text-xl
+                    font-bold
+                "
+            >
+                Smart Location
+            </h3>
+
+            <p
+                    class="
+                    text-gray-400
+                    mt-3
+                "
+            >
+                Capture exact GPS coordinates
+                when reporting garbage.
+            </p>
+
+        </div>
+
+
+
+        <div
+                class="
+                glass
+                card-3d
+                rounded-3xl
+                p-8
+            ">
+
+            <div
+                    class="
+                    text-5xl
+                    mb-5
+                "
+            >
+                🤖
+            </div>
+
+            <h3
+                    class="
+                    text-xl
+                    font-bold
+                "
+            >
+                AI Waste Detection
+            </h3>
+
+            <p
+                    class="
+                    text-gray-500
+                    mt-3
+                "
+            >
+                Classify waste and discover
+                whether it can be recycled.
+            </p>
+
+        </div>
+
+
+
+        <div
+                class="
+                glass
+                card-3d
+                rounded-3xl
+                p-8
+            ">
+
+            <div
+                    class="
+                    text-5xl
+                    mb-5
+                "
+            >
+                🚛
+            </div>
+
+            <h3
+                    class="
+                    text-xl
+                    font-bold
+                "
+            >
+                Smart Collection
+            </h3>
+
+            <p
+                    class="
+                    text-gray-400
+                    mt-3
+                "
+            >
+                Connect citizens,
+                workers and administrators.
+            </p>
+
+        </div>
+
+    </div>
+
+<!--    <div class="eco-tagline-center ">-->
+<!--        <span class="eco-tagline text-green-400 mt-6">Small actions. Cleaner cities. A greener future.</span>-->
+<!--    </div>-->
+    <div class="eco-tagline-center text-center mt-9">
+    <span class="eco-tagline text-green-400">
+        Small actions. Cleaner cities. A greener future.
+    </span>
+    </div>
+
+</section>
+
+
+<footer
+        class="
+        text-center
+        py-10
+        text-gray-500
+        border-t
+        border-green-400/10
+    ">
+
+    RecycleX © 2026
+
+</footer>
+
+
+</body>
+
+</html>

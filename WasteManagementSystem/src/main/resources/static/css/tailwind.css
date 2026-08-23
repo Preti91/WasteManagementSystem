@@ -1,0 +1,1830 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+/* =========================================================
+   RECYCLEX — SMART CITY 3D THEME
+   Professional Waste Management UI
+   ========================================================= */
+
+:root {
+
+    /* Main colors */
+    --eco: #57e389;
+    --eco-dark: #19a963;
+    --aqua: #42d9d0;
+
+    /* Background */
+    --bg: #07100d;
+    --bg-2: #0b1713;
+    --bg-3: #101f19;
+
+    /* Surfaces */
+    --surface: rgba(17, 32, 26, .86);
+    --surface-2: rgba(22, 42, 34, .82);
+
+    /* Text */
+    --text: #f3fff8;
+    --text-soft: #b6c9bf;
+    --text-muted: #7f968b;
+
+    /* Borders */
+    --border: rgba(134, 255, 187, .14);
+    --border-hover: rgba(134, 255, 187, .35);
+
+    /* Status */
+    --success: #57e389;
+    --warning: #f5c451;
+    --danger: #ff6b78;
+    --info: #42d9d0;
+
+    /* Radius */
+    --radius: 18px;
+    --radius-lg: 26px;
+
+    /* Shadows */
+    --shadow:
+            0 20px 60px rgba(0,0,0,.35);
+
+    --shadow-3d:
+            0 30px 80px rgba(0,0,0,.48);
+
+    --green-shadow:
+            0 15px 40px rgba(87,227,137,.16);
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+            "DM Sans",
+            sans-serif;
+
+    color: var(--text);
+
+    background:
+
+            radial-gradient(
+                    circle at 5% 10%,
+                    rgba(87,227,137,.09),
+                    transparent 28%
+            ),
+
+            radial-gradient(
+                    circle at 95% 20%,
+                    rgba(66,217,208,.07),
+                    transparent 26%
+            ),
+
+            radial-gradient(
+                    circle at 50% 100%,
+                    rgba(87,227,137,.05),
+                    transparent 35%
+            ),
+
+            linear-gradient(
+                    135deg,
+                    #050b09,
+                    #091510 50%,
+                    #07100d
+            );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   SMART CITY BACKGROUND
+   ========================================================= */
+
+.smart-bg {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -20;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+
+/* soft moving lights */
+
+.smart-bg::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    top: -220px;
+    left: -180px;
+
+    border-radius: 50%;
+
+    background:
+            radial-gradient(
+                    circle,
+                    rgba(87,227,137,.13),
+                    transparent 68%
+            );
+
+    filter: blur(20px);
+
+    animation:
+            cityLight 14s ease-in-out infinite;
+}
+
+
+.smart-bg::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    right: -180px;
+    bottom: -180px;
+
+    border-radius: 50%;
+
+    background:
+            radial-gradient(
+                    circle,
+                    rgba(66,217,208,.11),
+                    transparent 68%
+            );
+
+    filter: blur(25px);
+
+    animation:
+            cityLight2 16s ease-in-out infinite;
+}
+
+
+@keyframes cityLight {
+
+    0%,100% {
+        transform:
+                translate(0,0)
+                scale(1);
+    }
+
+    50% {
+        transform:
+                translate(150px,100px)
+                scale(1.25);
+    }
+}
+
+
+@keyframes cityLight2 {
+
+    0%,100% {
+        transform:
+                translate(0,0);
+    }
+
+    50% {
+        transform:
+                translate(-120px,-100px);
+    }
+}
+
+
+/* =========================================================
+   CITY GRID
+   ========================================================= */
+
+.smart-grid {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -19;
+
+    pointer-events: none;
+
+    opacity: .35;
+
+    background-image:
+
+            linear-gradient(
+                    rgba(87,227,137,.035) 1px,
+                    transparent 1px
+            ),
+
+            linear-gradient(
+                    90deg,
+                    rgba(87,227,137,.035) 1px,
+                    transparent 1px
+            );
+
+    background-size:
+            55px 55px;
+
+    mask-image:
+            linear-gradient(
+                    to bottom,
+                    black,
+                    transparent 85%
+            );
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.smart-container {
+
+    width:
+            min(
+                    1240px,
+                    calc(100% - 40px)
+            );
+
+    margin:
+            auto;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.smart-navbar {
+
+    position: sticky;
+
+    top: 14px;
+
+    z-index: 9999;
+
+    width:
+            min(
+                    1240px,
+                    calc(100% - 28px)
+            );
+
+    margin:
+            14px auto;
+
+    padding:
+            10px 14px;
+
+    min-height:
+            68px;
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    gap:
+            20px;
+
+    border:
+            1px solid
+            var(--border);
+
+    border-radius:
+            20px;
+
+    background:
+            rgba(8,18,14,.82);
+
+    backdrop-filter:
+            blur(24px);
+
+    box-shadow:
+            0 20px 60px
+            rgba(0,0,0,.38);
+
+    transform:
+            translateZ(0);
+}
+
+
+/* logo */
+
+.smart-logo {
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    gap:
+            10px;
+
+    text-decoration:
+            none;
+
+    color:
+            white;
+
+    font-family:
+            "Space Grotesk",
+            sans-serif;
+
+    font-size:
+            20px;
+
+    font-weight:
+            700;
+
+    white-space:
+            nowrap;
+}
+
+
+.smart-logo-mark {
+
+    width:
+            42px;
+
+    height:
+            42px;
+
+    display:
+            grid;
+
+    place-items:
+            center;
+
+    border-radius:
+            13px;
+
+    color:
+            #052015;
+
+    background:
+            linear-gradient(
+                    145deg,
+                    #83f5a9,
+                    #36c879
+            );
+
+    box-shadow:
+            0 10px 30px
+            rgba(87,227,137,.2);
+
+    transform:
+            perspective(500px)
+            rotateX(4deg);
+
+    animation:
+            logoMove 4s ease-in-out infinite;
+}
+
+
+@keyframes logoMove {
+
+    0%,100% {
+        transform:
+                translateY(0)
+                rotateX(4deg);
+    }
+
+    50% {
+        transform:
+                translateY(-3px)
+                rotateX(8deg)
+                rotateY(8deg);
+    }
+}
+
+
+/* =========================================================
+   NAV LINKS
+   ========================================================= */
+
+.smart-nav-links {
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    gap:
+            3px;
+
+    flex:
+            1;
+
+    justify-content:
+            center;
+}
+
+
+.smart-nav-link {
+
+    position:
+            relative;
+
+    padding:
+            10px 13px;
+
+    border-radius:
+            11px;
+
+    color:
+            var(--text-muted);
+
+    text-decoration:
+            none;
+
+    font-size:
+            13px;
+
+    font-weight:
+            600;
+
+    transition:
+            .25s;
+}
+
+
+.smart-nav-link:hover {
+
+    color:
+            white;
+
+    background:
+            rgba(87,227,137,.07);
+
+    transform:
+            translateY(-1px);
+}
+
+
+.smart-nav-link.active {
+
+    color:
+            var(--eco);
+
+    background:
+            rgba(87,227,137,.08);
+}
+
+
+.smart-nav-link.active::after {
+
+    content:
+            "";
+
+    position:
+            absolute;
+
+    left:
+            50%;
+
+    bottom:
+            3px;
+
+    width:
+            18px;
+
+    height:
+            2px;
+
+    transform:
+            translateX(-50%);
+
+    border-radius:
+            99px;
+
+    background:
+            var(--eco);
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.smart-header {
+
+    padding:
+            70px 0 35px;
+}
+
+
+.smart-eyebrow {
+
+    display:
+            inline-flex;
+
+    align-items:
+            center;
+
+    gap:
+            8px;
+
+    padding:
+            7px 12px;
+
+    margin-bottom:
+            14px;
+
+    border:
+            1px solid
+            rgba(87,227,137,.16);
+
+    border-radius:
+            999px;
+
+    background:
+            rgba(87,227,137,.055);
+
+    color:
+            var(--eco);
+
+    font-size:
+            11px;
+
+    font-weight:
+            700;
+
+    letter-spacing:
+            1px;
+
+    text-transform:
+            uppercase;
+}
+
+
+.smart-eyebrow::before {
+
+    content:
+            "";
+
+    width:
+            6px;
+
+    height:
+            6px;
+
+    border-radius:
+            50%;
+
+    background:
+            var(--eco);
+
+    box-shadow:
+            0 0 10px
+            var(--eco);
+}
+
+
+.smart-title {
+
+    margin:
+            0;
+
+    max-width:
+            850px;
+
+    font-family:
+            "Space Grotesk",
+            sans-serif;
+
+    font-size:
+            clamp(
+                    2.3rem,
+                    5vw,
+                    4.4rem
+            );
+
+    line-height:
+            1.05;
+
+    letter-spacing:
+            -2px;
+
+    font-weight:
+            700;
+}
+
+
+.smart-title span {
+
+    color:
+            var(--eco);
+
+    text-shadow:
+            0 8px 30px
+            rgba(87,227,137,.15);
+}
+
+
+.smart-description {
+
+    max-width:
+            680px;
+
+    margin-top:
+            18px;
+
+    color:
+            var(--text-muted);
+
+    font-size:
+            16px;
+
+    line-height:
+            1.75;
+}
+
+
+/* =========================================================
+   3D CARDS
+   ========================================================= */
+
+.smart-card {
+
+    position:
+            relative;
+
+    padding:
+            25px;
+
+    border:
+            1px solid
+            var(--border);
+
+    border-radius:
+            var(--radius-lg);
+
+    background:
+            linear-gradient(
+                    145deg,
+                    rgba(20,38,30,.86),
+                    rgba(9,19,15,.84)
+            );
+
+    box-shadow:
+            var(--shadow);
+
+    backdrop-filter:
+            blur(20px);
+
+    overflow:
+            hidden;
+
+    transform-style:
+            preserve-3d;
+
+    transition:
+            transform .4s
+            cubic-bezier(.2,.8,.2,1),
+            box-shadow .4s,
+            border-color .3s;
+}
+
+
+/* top reflection */
+
+.smart-card::before {
+
+    content:
+            "";
+
+    position:
+            absolute;
+
+    left:
+            8%;
+
+    top:
+            0;
+
+    width:
+            84%;
+
+    height:
+            1px;
+
+    background:
+            linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.25),
+                    transparent
+            );
+}
+
+
+/* ambient light */
+
+.smart-card::after {
+
+    content:
+            "";
+
+    position:
+            absolute;
+
+    width:
+            180px;
+
+    height:
+            180px;
+
+    right:
+            -100px;
+
+    top:
+            -100px;
+
+    border-radius:
+            50%;
+
+    background:
+            rgba(87,227,137,.07);
+
+    filter:
+            blur(20px);
+
+    transition:
+            .5s;
+}
+
+
+.smart-card:hover {
+
+    transform:
+            perspective(1000px)
+            translateY(-8px)
+            rotateX(2deg)
+            rotateY(-2deg);
+
+    border-color:
+            var(--border-hover);
+
+    box-shadow:
+            var(--shadow-3d),
+            var(--green-shadow);
+}
+
+
+.smart-card:hover::after {
+
+    transform:
+            scale(1.8);
+}
+
+
+/* =========================================================
+   FORM DESIGN
+   ========================================================= */
+
+.smart-field {
+
+    margin-bottom:
+            20px;
+}
+
+
+.smart-label {
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    gap:
+            5px;
+
+    margin-bottom:
+            8px;
+
+    color:
+            #e4f4eb;
+
+    font-size:
+            13px;
+
+    font-weight:
+            700;
+}
+
+
+.smart-required {
+
+    color:
+            var(--eco);
+}
+
+
+.smart-input,
+.smart-select,
+.smart-textarea {
+
+    width:
+            100%;
+
+    padding:
+            14px 16px;
+
+    border:
+            1px solid
+            rgba(134,255,187,.12);
+
+    border-radius:
+            13px;
+
+    outline:
+            none;
+
+    background:
+            rgba(4,11,8,.7);
+
+    color:
+            white;
+
+    font-family:
+            "DM Sans",
+            sans-serif;
+
+    font-size:
+            14px;
+
+    transition:
+            .25s;
+}
+
+
+.smart-input {
+
+    min-height:
+            48px;
+}
+
+
+.smart-textarea {
+
+    min-height:
+            135px;
+
+    resize:
+            vertical;
+
+    line-height:
+            1.65;
+}
+
+
+.smart-input::placeholder,
+.smart-textarea::placeholder {
+
+    color:
+            #61756b;
+}
+
+
+.smart-input:hover,
+.smart-select:hover,
+.smart-textarea:hover {
+
+    border-color:
+            rgba(134,255,187,.28);
+
+    background:
+            rgba(7,18,13,.85);
+}
+
+
+.smart-input:focus,
+.smart-select:focus,
+.smart-textarea:focus {
+
+    border-color:
+            var(--eco);
+
+    background:
+            rgba(7,20,14,.95);
+
+    box-shadow:
+            0 0 0 4px
+            rgba(87,227,137,.07),
+
+            0 12px 35px
+            rgba(0,0,0,.18);
+
+    transform:
+            translateY(-1px);
+}
+
+
+/* =========================================================
+   MAIN BUTTON
+   ========================================================= */
+
+.smart-button {
+
+    position:
+            relative;
+
+    display:
+            inline-flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    gap:
+            8px;
+
+    min-height:
+            48px;
+
+    padding:
+            12px 22px;
+
+    border:
+            none;
+
+    border-radius:
+            13px;
+
+    cursor:
+            pointer;
+
+    overflow:
+            hidden;
+
+    color:
+            #04160c;
+
+    background:
+            linear-gradient(
+                    145deg,
+                    #83f5a9,
+                    #38c978
+            );
+
+    font-family:
+            "Space Grotesk",
+            sans-serif;
+
+    font-size:
+            14px;
+
+    font-weight:
+            700;
+
+    box-shadow:
+            0 12px 30px
+            rgba(87,227,137,.18);
+
+    transition:
+            .25s;
+}
+
+
+.smart-button::before {
+
+    content:
+            "";
+
+    position:
+            absolute;
+
+    left:
+            -120%;
+
+    top:
+            0;
+
+    width:
+            70%;
+
+    height:
+            100%;
+
+    background:
+            linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.5),
+                    transparent
+            );
+
+    transform:
+            skewX(-20deg);
+
+    transition:
+            .6s;
+}
+
+
+.smart-button:hover {
+
+    transform:
+            translateY(-3px)
+            scale(1.015);
+
+    box-shadow:
+            0 18px 45px
+            rgba(87,227,137,.27);
+}
+
+
+.smart-button:hover::before {
+
+    left:
+            140%;
+}
+
+
+.smart-button:active {
+
+    transform:
+            scale(.98);
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.smart-button-outline {
+
+    display:
+            inline-flex;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    gap:
+            8px;
+
+    min-height:
+            48px;
+
+    padding:
+            11px 20px;
+
+    border:
+            1px solid
+            rgba(87,227,137,.2);
+
+    border-radius:
+            13px;
+
+    background:
+            rgba(87,227,137,.04);
+
+    color:
+            var(--eco);
+
+    font-size:
+            14px;
+
+    font-weight:
+            700;
+
+    cursor:
+            pointer;
+
+    transition:
+            .25s;
+}
+
+
+.smart-button-outline:hover {
+
+    background:
+            rgba(87,227,137,.09);
+
+    border-color:
+            rgba(87,227,137,.4);
+
+    transform:
+            translateY(-2px);
+}
+
+
+/* =========================================================
+   DASHBOARD STAT CARDS
+   ========================================================= */
+
+.smart-stat {
+
+    display:
+            flex;
+
+    align-items:
+            center;
+
+    gap:
+            16px;
+}
+
+
+.smart-stat-icon {
+
+    width:
+            54px;
+
+    height:
+            54px;
+
+    flex-shrink:
+            0;
+
+    display:
+            grid;
+
+    place-items:
+            center;
+
+    border-radius:
+            16px;
+
+    color:
+            var(--eco);
+
+    background:
+            rgba(87,227,137,.07);
+
+    border:
+            1px solid
+            rgba(87,227,137,.14);
+
+    font-size:
+            22px;
+}
+
+
+.smart-stat-number {
+
+    font-family:
+            "Space Grotesk",
+            sans-serif;
+
+    font-size:
+            28px;
+
+    font-weight:
+            700;
+}
+
+
+.smart-stat-text {
+
+    margin-top:
+            4px;
+
+    color:
+            var(--text-muted);
+
+    font-size:
+            12px;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.smart-status {
+
+    display:
+            inline-flex;
+
+    align-items:
+            center;
+
+    gap:
+            7px;
+
+    padding:
+            6px 10px;
+
+    border-radius:
+            999px;
+
+    font-size:
+            11px;
+
+    font-weight:
+            700;
+
+    text-transform:
+            uppercase;
+
+    letter-spacing:
+            .6px;
+}
+
+
+.smart-status::before {
+
+    content:
+            "";
+
+    width:
+            6px;
+
+    height:
+            6px;
+
+    border-radius:
+            50%;
+
+    background:
+            currentColor;
+
+    box-shadow:
+            0 0 9px
+            currentColor;
+}
+
+
+.smart-pending {
+
+    color:
+            var(--warning);
+
+    background:
+            rgba(245,196,81,.08);
+}
+
+
+.smart-assigned {
+
+    color:
+            var(--info);
+
+    background:
+            rgba(66,217,208,.08);
+}
+
+
+.smart-completed {
+
+    color:
+            var(--success);
+
+    background:
+            rgba(87,227,137,.08);
+}
+
+
+.smart-cancelled {
+
+    color:
+            var(--danger);
+
+    background:
+            rgba(255,107,120,.08);
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.smart-table-wrapper {
+
+    width:
+            100%;
+
+    overflow-x:
+            auto;
+
+    border:
+            1px solid
+            rgba(134,255,187,.1);
+
+    border-radius:
+            18px;
+
+    background:
+            rgba(4,11,8,.55);
+}
+
+
+.smart-table {
+
+    width:
+            100%;
+
+    min-width:
+            700px;
+
+    border-collapse:
+            collapse;
+}
+
+
+.smart-table th {
+
+    padding:
+            15px 18px;
+
+    text-align:
+            left;
+
+    color:
+            var(--eco);
+
+    background:
+            rgba(87,227,137,.045);
+
+    font-size:
+            11px;
+
+    text-transform:
+            uppercase;
+
+    letter-spacing:
+            .8px;
+}
+
+
+.smart-table td {
+
+    padding:
+            16px 18px;
+
+    color:
+            #cbdad2;
+
+    border-top:
+            1px solid
+            rgba(255,255,255,.045);
+
+    font-size:
+            13px;
+}
+
+
+.smart-table tbody tr {
+
+    transition:
+            .2s;
+}
+
+
+.smart-table tbody tr:hover {
+
+    background:
+            rgba(87,227,137,.035);
+}
+
+
+/* =========================================================
+   3D ECO ORB
+   ========================================================= */
+
+.smart-orb {
+
+    position:
+            relative;
+
+    width:
+            230px;
+
+    height:
+            230px;
+
+    border-radius:
+            50%;
+
+    background:
+
+            radial-gradient(
+                    circle at 30% 25%,
+                    #ffffff,
+                    #a8ffc5 3%,
+                    #57e389 12%,
+                    #167d4d 42%,
+                    #041b10 75%
+            );
+
+    box-shadow:
+
+            0 0 70px
+            rgba(87,227,137,.15),
+
+            inset
+            -40px -35px 60px
+            rgba(0,0,0,.6);
+
+    animation:
+            orbSpin 14s linear infinite;
+}
+
+
+.smart-orb::before {
+
+    content:
+            "";
+
+    position:
+            absolute;
+
+    inset:
+            -18px;
+
+    border:
+            1px solid
+            rgba(87,227,137,.25);
+
+    border-radius:
+            50%;
+
+    transform:
+            rotateX(70deg);
+
+    animation:
+            ringOne 7s linear infinite;
+}
+
+
+.smart-orb::after {
+
+    content:
+            "";
+
+    position:
+            absolute;
+
+    inset:
+            -35px;
+
+    border:
+            1px solid
+            rgba(66,217,208,.15);
+
+    border-radius:
+            50%;
+
+    transform:
+            rotateY(65deg);
+
+    animation:
+            ringTwo 9s linear infinite;
+}
+
+
+@keyframes orbSpin {
+
+    to {
+        transform:
+                rotateY(360deg)
+                rotateX(5deg);
+    }
+}
+
+
+@keyframes ringOne {
+
+    to {
+        transform:
+                rotateX(70deg)
+                rotateZ(360deg);
+    }
+}
+
+
+@keyframes ringTwo {
+
+    to {
+        transform:
+                rotateY(65deg)
+                rotateZ(-360deg);
+    }
+}
+
+
+/* =========================================================
+   UPLOAD AREA
+   ========================================================= */
+
+.smart-upload {
+
+    min-height:
+            180px;
+
+    display:
+            flex;
+
+    flex-direction:
+            column;
+
+    align-items:
+            center;
+
+    justify-content:
+            center;
+
+    gap:
+            8px;
+
+    border:
+            1px dashed
+            rgba(87,227,137,.25);
+
+    border-radius:
+            18px;
+
+    background:
+            rgba(87,227,137,.025);
+
+    cursor:
+            pointer;
+
+    transition:
+            .3s;
+}
+
+
+.smart-upload:hover {
+
+    border-color:
+            var(--eco);
+
+    background:
+            rgba(87,227,137,.06);
+
+    transform:
+            translateY(-3px);
+
+    box-shadow:
+            0 20px 45px
+            rgba(87,227,137,.06);
+}
+
+
+.smart-upload-icon {
+
+    width:
+            58px;
+
+    height:
+            58px;
+
+    display:
+            grid;
+
+    place-items:
+            center;
+
+    border-radius:
+            17px;
+
+    background:
+            rgba(87,227,137,.08);
+
+    color:
+            var(--eco);
+
+    font-size:
+            24px;
+}
+
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.smart-map {
+
+    padding:
+            7px;
+
+    border-radius:
+            25px;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    rgba(87,227,137,.12),
+                    rgba(66,217,208,.06),
+                    transparent
+            );
+
+    box-shadow:
+            0 30px 80px
+            rgba(0,0,0,.4);
+}
+
+
+.smart-map #map {
+
+    width:
+            100%;
+
+    height:
+            550px;
+
+    border-radius:
+            20px;
+
+    overflow:
+            hidden;
+}
+
+
+/* =========================================================
+   FLOATING 3D ELEMENT
+   ========================================================= */
+
+.smart-float {
+
+    animation:
+            smartFloat 5s ease-in-out infinite;
+}
+
+
+@keyframes smartFloat {
+
+    0%,100% {
+        transform:
+                translateY(0);
+    }
+
+    50% {
+        transform:
+                translateY(-14px);
+    }
+}
+
+
+/* =========================================================
+   PAGE ANIMATION
+   ========================================================= */
+
+.smart-page {
+
+    animation:
+            pageAppear .65s ease both;
+}
+
+
+@keyframes pageAppear {
+
+    from {
+
+        opacity:
+                0;
+
+        transform:
+                translateY(15px);
+    }
+
+    to {
+
+        opacity:
+                1;
+
+        transform:
+                translateY(0);
+    }
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+
+    width:
+            8px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:
+            #050b08;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    border-radius:
+            20px;
+
+    background:
+            #245c40;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+            var(--eco);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .smart-nav-links {
+
+        display:
+                none;
+    }
+
+    .smart-header {
+
+        padding-top:
+                45px;
+    }
+
+    .smart-title {
+
+        font-size:
+                2.7rem;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .smart-container {
+
+        width:
+                calc(100% - 24px);
+    }
+
+    .smart-card {
+
+        padding:
+                18px;
+
+        border-radius:
+                20px;
+    }
+
+    .smart-title {
+
+        font-size:
+                2.2rem;
+
+        letter-spacing:
+                -1px;
+    }
+
+    .smart-description {
+
+        font-size:
+                14px;
+    }
+
+    .smart-map #map {
+
+        height:
+                420px;
+    }
+
+    .smart-orb {
+
+        width:
+                175px;
+
+        height:
+                175px;
+    }
+}

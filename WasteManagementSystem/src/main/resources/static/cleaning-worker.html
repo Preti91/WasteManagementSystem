@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cleaning Worker | RecycleX</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="/css/tailwind.css">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+body { background: radial-gradient(circle at top, #0f2a24, #020617 55%); color:#e5e7eb; }
+.glass { background:rgba(15,23,42,.72); border:1px solid rgba(255,255,255,.08); backdrop-filter:blur(16px); }
+.card { box-shadow:0 18px 45px rgba(0,0,0,.20); transition:.25s; }
+.card:hover { transform:translateY(-3px); }
+.muted { color:#94a3b8; font-size:.75rem; letter-spacing:.08em; }
+.status { padding:.4rem .7rem; border-radius:999px; background:rgba(34,211,238,.10); color:#67e8f9; font-size:.72rem; height:max-content; }
+.details { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1rem; color:#94a3b8; font-size:.85rem; }
+.actions { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.2rem; }
+.action { padding:.75rem 1rem; border-radius:.8rem; border:1px solid rgba(255,255,255,.1); cursor:pointer; font-weight:700; }
+.primary { background:#2563eb; color:white; }
+.success { background:#16a34a; color:white; }
+.secondary { background:rgba(34,211,238,.10); color:#67e8f9; }
+.notice { padding:.75rem 1rem; border-radius:.8rem; }
+.waiting { background:rgba(234,179,8,.10); color:#facc15; }
+.done { background:rgba(34,197,94,.10); color:#4ade80; }
+.rejected { background:rgba(239,68,68,.10); color:#f87171; }
+#workerMap, #cleaningWorkerMap { width:100%; height:520px; border-radius:1.5rem; overflow:hidden; }
+.stat { padding:1.3rem; border-radius:1.5rem; }
+@media(max-width:768px) { #workerMap, #cleaningWorkerMap { height:420px; } }
+</style>
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+<body class="min-h-screen">
+<nav class="glass sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
+<div>
+<div class="text-xl font-black text-green-400"><span class="brand-mark" aria-hidden="true"></span> RECYCLEX</div>
+<div class="text-xs text-gray-500">CLEANING WORKER</div>
+</div>
+<div class="flex items-center gap-3 min-w-0">
+<div class="profile-chip hidden sm:flex">
+<div class="profile-chip__avatar" data-user-initial>W</div>
+<div class="profile-chip__text">
+<p class="profile-chip__name" data-user-name>Worker</p>
+<p class="profile-chip__email" data-user-email></p>
+</div>
+</div>
+<button onclick="logout()" class="px-4 py-2 rounded-xl border border-red-400/20 text-red-400 text-sm whitespace-nowrap">Logout</button>
+</div>
+</div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-5 py-10">
+<section class="mb-8">
+<p class="text-green-400 text-sm mb-2">● WORKER OPERATIONS</p>
+<h1 class="text-4xl md:text-5xl font-black">Cleaning <span class="text-green-400">Dashboard</span></h1>
+<p class="text-gray-400 mt-3">Manage assigned garbage collection, update progress, notify admin and navigate to the reported location.</p>
+</section>
+
+<section class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+<div class="glass stat"><p class="text-gray-500">Assigned</p><h2 id="assignedCount" class="text-4xl font-black text-cyan-400 mt-2">0</h2></div>
+<div class="glass stat"><p class="text-gray-500">Awaiting Approval</p><h2 id="pendingCount" class="text-4xl font-black text-yellow-400 mt-2">0</h2></div>
+<div class="glass stat"><p class="text-gray-500">In Progress</p><h2 id="progressCount" class="text-4xl font-black text-orange-400 mt-2">0</h2></div>
+<div class="glass stat"><p class="text-gray-500">Approved / Completed</p><h2 id="completedCount" class="text-4xl font-black text-green-400 mt-2">0</h2></div>
+</section>
+
+<section class="glass rounded-3xl p-6 mb-8">
+<div class="flex flex-col md:flex-row md:justify-between gap-4">
+<div>
+<h2 class="text-2xl font-bold">🚛 Live Worker GPS</h2>
+<p id="locationStatus" class="text-gray-400 mt-2">GPS tracking is stopped.</p>
+<p class="text-xs text-gray-500 mt-1">Location is used in this browser for navigation. It is not stored in your database by this feature.</p>
+</div>
+<div class="flex flex-wrap gap-2">
+<button onclick="getCurrentLocation()" class="action secondary">📍 My Location</button>
+<button onclick="startTracking()" class="action primary">▶ Start Tracking</button>
+<button onclick="stopTracking()" class="action" style="color:#f87171">■ Stop</button>
+</div>
+</div>
+</section>
+
+<section class="mb-10">
+<div class="flex flex-wrap justify-between items-center gap-4 mb-4">
+<div>
+<h2 class="text-2xl font-bold">🗺️ Cleaning Route Map</h2>
+<p class="text-gray-500 text-sm mt-1">Select a task to draw a driving route from your current GPS position to the garbage/pickup location.</p>
+</div>
+<div class="flex gap-2">
+<button onclick="loadTasksOnMap()" class="action secondary">↻ Load Tasks</button>
+<button onclick="clearRoute()" class="action" style="color:#f87171">Clear Route</button>
+</div>
+</div>
+<div id="cleaningWorkerMap" class="glass"></div>
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+<div class="glass rounded-2xl p-4"><p class="text-xs text-gray-500">Selected</p><h3 id="selectedTask" class="font-bold mt-1">None</h3></div>
+<div class="glass rounded-2xl p-4"><p class="text-xs text-gray-500">Distance</p><h3 id="routeDistance" class="font-bold text-green-400 mt-1">—</h3></div>
+<div class="glass rounded-2xl p-4"><p class="text-xs text-gray-500">Estimated Time</p><h3 id="routeDuration" class="font-bold text-orange-400 mt-1">—</h3></div>
+<div class="glass rounded-2xl p-4"><p class="text-xs text-gray-500">Route Status</p><h3 id="routeStatus" class="font-bold text-yellow-400 mt-1">Waiting</h3></div>
+</div>
+</section>
+
+<section>
+<div class="flex justify-between items-center mb-5">
+<div><h2 class="text-2xl font-bold">Cleaning Tasks</h2><p class="text-gray-500 text-sm">Only tasks assigned to the logged-in worker are shown.</p></div>
+<button onclick="loadCleaningTasks()" class="action secondary">↻ Refresh</button>
+</div>
+<div id="taskContainer" class="grid md:grid-cols-2 gap-5">
+<div class="glass rounded-3xl p-8 text-gray-400">Loading tasks...</div>
+</div>
+</section>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/cleaning-worker.js"></script>
+<script
+        async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAOn17cHqIKrBpArmhVeH19bBMpgBEFDQ&loading=async&callback=initCleaningWorkerMap">
+</script>
+</body>
+</html>

@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        green: {
+                            300: '#86EFAC',
+                            400: '#4ADE80',
+                            500: '#22C55E',
+                            600: '#16A34A'
+                        },
+
+                        cyan: {
+                            300: '#67E8F9',
+                            400: '#22D3EE',
+                            500: '#06B6D4',
+                            600: '#0891B2'
+                        },
+
+                        blue: {
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#3B82F6',
+                            600: '#2563EB'
+                        }
+                    },
+
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | RecycleX</title>
+
+    <link
+            rel="icon"
+            type="image/svg+xml"
+            href="/images/logo.svg"
+    >
+
+    <!-- Existing CSS -->
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css"
+    >
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css"
+    >
+
+    <link
+            rel="stylesheet"
+            href="/css/frontend-polish.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+            rel="stylesheet"
+    >
+
+    <!-- ===================================================== -->
+    <!-- CUSTOM 3D BACKGROUND ANIMATION -->
+    <!-- ===================================================== -->
+
+    <style>
+
+        /* Smooth background movement */
+        @keyframes floatGlow {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(20px, -25px, 0) scale(1.08);
+            }
+        }
+
+        @keyframes floatGlowReverse {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(-25px, 20px, 0) scale(1.1);
+            }
+        }
+
+        @keyframes gridMove {
+            from {
+                transform: translate3d(0, 0, 0);
+            }
+
+            to {
+                transform: translate3d(45px, 45px, 0);
+            }
+        }
+
+        .glow-green {
+            animation: floatGlow 10s ease-in-out infinite;
+        }
+
+        .glow-cyan {
+            animation: floatGlowReverse 12s ease-in-out infinite;
+        }
+
+        .glow-blue {
+            animation: floatGlow 14s ease-in-out infinite;
+        }
+
+        .moving-grid {
+            animation: gridMove 20s linear infinite;
+        }
+
+        /* Glass card */
+        .login-glass {
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(13, 35, 61, 0.94),
+                            rgba(7, 25, 45, 0.90)
+                    );
+
+            box-shadow:
+                    0 25px 80px rgba(0, 0, 0, 0.55),
+                    0 0 45px rgba(6, 182, 212, 0.08),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        /* Card top glow */
+        .card-glow-line {
+            background:
+                    linear-gradient(
+                            90deg,
+                            transparent,
+                            rgba(34, 197, 94, 0.8),
+                            rgba(6, 182, 212, 0.9),
+                            rgba(59, 130, 246, 0.8),
+                            transparent
+                    );
+
+            filter: blur(1px);
+        }
+
+        /* Input glass */
+        .glass-input {
+            background:
+                    linear-gradient(
+                            135deg,
+                            rgba(8, 28, 49, 0.95),
+                            rgba(10, 34, 57, 0.90)
+                    );
+        }
+
+        .glass-input::placeholder {
+            color: #64748b;
+        }
+
+        /* Better mobile experience */
+        @media (max-width: 640px) {
+
+            .login-glass {
+                box-shadow:
+                        0 20px 55px rgba(0, 0, 0, 0.55),
+                        0 0 30px rgba(6, 182, 212, 0.06);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+        class="
+        relative
+
+        min-h-screen
+
+        flex
+        items-center
+        justify-center
+
+        bg-[#071426]
+
+        px-4
+        py-6
+
+        overflow-y-auto
+
+        font-sans
+
+        text-white
+    "
+>
+
+
+<!-- ===================================================== -->
+<!-- 3D GLOWING BACKGROUND -->
+<!-- ===================================================== -->
+
+<div
+        class="
+        fixed
+        inset-0
+        -z-10
+
+        overflow-hidden
+
+        pointer-events-none
+    "
+>
+
+    <!-- Deep navy base -->
+    <div
+            class="
+            absolute
+            inset-0
+
+            bg-gradient-to-br
+            from-[#071426]
+            via-[#0a1b35]
+            to-[#061b29]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- GREEN 3D LIGHT -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            glow-green
+
+            absolute
+
+            -top-40
+            -left-40
+
+            w-[520px]
+            h-[520px]
+
+            rounded-full
+
+            bg-green-500/20
+
+            blur-[120px]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- CYAN 3D LIGHT -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            glow-cyan
+
+            absolute
+
+            top-[8%]
+            right-[-180px]
+
+            w-[600px]
+            h-[600px]
+
+            rounded-full
+
+            bg-cyan-500/20
+
+            blur-[130px]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- BLUE 3D LIGHT -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            glow-blue
+
+            absolute
+
+            bottom-[-250px]
+            left-[15%]
+
+            w-[680px]
+            h-[680px]
+
+            rounded-full
+
+            bg-blue-600/25
+
+            blur-[145px]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- CENTER CYAN LIGHT -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            absolute
+
+            top-[32%]
+            left-[38%]
+
+            w-[380px]
+            h-[380px]
+
+            rounded-full
+
+            bg-cyan-400/10
+
+            blur-[110px]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- GREEN SECONDARY LIGHT -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            absolute
+
+            bottom-[5%]
+            right-[5%]
+
+            w-[300px]
+            h-[300px]
+
+            rounded-full
+
+            bg-green-400/10
+
+            blur-[100px]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- RADIAL 3D LIGHT -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            absolute
+            inset-0
+
+            bg-[radial-gradient(circle_at_18%_18%,rgba(34,197,94,0.15),transparent_28%),radial-gradient(circle_at_82%_20%,rgba(6,182,212,0.16),transparent_30%),radial-gradient(circle_at_50%_82%,rgba(59,130,246,0.18),transparent_35%)]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- SUBTLE 3D GRID -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            moving-grid
+
+            absolute
+            inset-[-100px]
+
+            opacity-[0.055]
+
+            bg-[linear-gradient(rgba(255,255,255,0.25)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.25)_1px,transparent_1px)]
+
+            bg-[size:45px_45px]
+
+            [transform:perspective(700px)_rotateX(58deg)_scale(1.6)]
+        "
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- SOFT VIGNETTE -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            absolute
+            inset-0
+
+            bg-[radial-gradient(circle_at_center,transparent_25%,rgba(3,12,25,0.38)_100%)]
+        "
+    ></div>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- LOGIN CARD -->
+<!-- ===================================================== -->
+
+<div
+        class="
+        login-glass
+
+        relative
+
+        w-full
+        max-w-md
+
+        rounded-2xl
+
+        border
+        border-cyan-400/20
+
+        px-6
+        py-5
+
+        sm:px-7
+        sm:py-6
+
+        transition-all
+        duration-300
+
+        hover:-translate-y-1
+
+        hover:border-cyan-400/35
+
+        hover:shadow-[0_30px_90px_rgba(0,0,0,0.60),0_0_50px_rgba(6,182,212,0.12)]
+    "
+>
+
+
+    <!-- ================================================= -->
+    <!-- CARD TOP GLOW -->
+    <!-- ================================================= -->
+
+    <div
+            class="
+            card-glow-line
+
+            absolute
+            top-0
+            left-[10%]
+            right-[10%]
+
+            h-px
+
+            rounded-full
+        "
+    ></div>
+
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="text-center mb-6">
+
+
+        <!-- RECYCLE ICON -->
+
+        <div
+                class="
+                mx-auto
+                mb-3
+
+                flex
+                h-11
+                w-11
+
+                items-center
+                justify-center
+
+                rounded-xl
+
+                bg-gradient-to-br
+                from-green-500
+                via-cyan-500
+                to-blue-500
+
+                text-2xl
+                text-white
+
+                shadow-lg
+                shadow-cyan-500/20
+
+                transition-all
+                duration-300
+
+                hover:scale-110
+
+                hover:rotate-3
+
+                hover:shadow-[0_0_30px_rgba(6,182,212,0.35)]
+            "
+        >
+            ♻
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h1
+                class="
+                font-display
+
+                text-2xl
+                sm:text-3xl
+
+                font-bold
+
+                tracking-tight
+
+                text-white
+
+                drop-shadow-[0_2px_12px_rgba(255,255,255,0.08)]
+            "
+        >
+            Welcome Back
+        </h1>
+
+
+        <!-- SUBTITLE -->
+
+        <p
+                class="
+                mt-1.5
+
+                text-xs
+                sm:text-sm
+
+                text-slate-300
+            "
+        >
+            Access your smart waste dashboard
+        </p>
+
+
+        <!-- ================================================= -->
+        <!-- ECO TAGLINE -->
+        <!-- ================================================= -->
+
+        <div
+                class="
+                mt-4
+
+                flex
+                justify-center
+            "
+        >
+
+            <span
+                    class="
+                    inline-flex
+                    items-center
+                    gap-1.5
+
+                    rounded-full
+
+                    border
+                    border-cyan-400/25
+
+                    bg-cyan-400/10
+
+                    px-3
+                    py-1.5
+
+                    text-[11px]
+
+                    font-medium
+
+                    text-cyan-200
+
+                    shadow-[0_0_20px_rgba(6,182,212,0.06)]
+
+                    transition-all
+                    duration-300
+
+                    hover:border-cyan-300/40
+
+                    hover:bg-cyan-400/15
+
+                    hover:text-cyan-100
+
+                    hover:-translate-y-0.5
+
+                    hover:shadow-[0_0_25px_rgba(6,182,212,0.15)]
+                "
+            >
+
+                <span>
+                    🌱
+                </span>
+
+                <span>
+                    Small actions. Cleaner cities. A greener future.
+                </span>
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- LOGIN FORM -->
+    <!-- ================================================= -->
+
+    <form id="loginForm">
+
+
+        <!-- ================================================= -->
+        <!-- EMAIL -->
+        <!-- ================================================= -->
+
+        <label
+                for="email"
+
+                class="
+                block
+
+                mb-1.5
+
+                text-xs
+
+                font-semibold
+
+                text-slate-200
+            "
+        >
+            Email
+        </label>
+
+
+        <input
+                id="email"
+
+                name="email"
+
+                type="email"
+
+                required
+
+                autocomplete="email"
+
+                placeholder="you@example.com"
+
+                class="
+                glass-input
+
+                w-full
+
+                rounded-lg
+
+                border
+                border-slate-600/80
+
+                px-3
+                py-2.5
+
+                text-sm
+
+                text-white
+
+                placeholder:text-slate-500
+
+                outline-none
+
+                shadow-inner
+                shadow-black/30
+
+                transition-all
+                duration-200
+
+                hover:border-cyan-400/50
+
+                hover:bg-[#0c243d]
+
+                focus:border-cyan-300
+
+                focus:bg-[#0c243d]
+
+                focus:ring-2
+                focus:ring-cyan-400/15
+
+                focus:shadow-[0_0_25px_rgba(6,182,212,0.12)]
+            "
+        >
+
+
+
+        <!-- ================================================= -->
+        <!-- PASSWORD -->
+        <!-- ================================================= -->
+
+        <label
+                for="password"
+
+                class="
+                block
+
+                mt-4
+                mb-1.5
+
+                text-xs
+
+                font-semibold
+
+                text-slate-200
+            "
+        >
+            Password
+        </label>
+
+
+        <input
+                id="password"
+
+                name="password"
+
+                type="password"
+
+                required
+
+                autocomplete="current-password"
+
+                placeholder="••••••••"
+
+                class="
+                glass-input
+
+                w-full
+
+                rounded-lg
+
+                border
+                border-slate-600/80
+
+                px-3
+                py-2.5
+
+                text-sm
+
+                text-white
+
+                placeholder:text-slate-500
+
+                outline-none
+
+                shadow-inner
+                shadow-black/30
+
+                transition-all
+                duration-200
+
+                hover:border-blue-400/50
+
+                hover:bg-[#0c243d]
+
+                focus:border-blue-300
+
+                focus:bg-[#0c243d]
+
+                focus:ring-2
+                focus:ring-blue-400/15
+
+                focus:shadow-[0_0_25px_rgba(59,130,246,0.12)]
+            "
+        >
+
+
+
+        <!-- ================================================= -->
+        <!-- FORGOT PASSWORD -->
+        <!-- ================================================= -->
+
+        <div
+                class="
+                text-right
+
+                mt-2
+
+                mb-5
+            "
+        >
+
+            <a
+                    href="/forgot-password.html"
+
+                    class="
+                    text-xs
+
+                    font-medium
+
+                    text-cyan-300
+
+                    transition-all
+                    duration-200
+
+                    hover:text-cyan-100
+
+                    hover:underline
+
+                    hover:underline-offset-4
+
+                    hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]
+                "
+            >
+                Forgot Password?
+            </a>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- LOGIN BUTTON -->
+        <!-- ================================================= -->
+
+        <button
+                type="submit"
+
+                class="
+                group
+
+                relative
+
+                w-full
+
+                overflow-hidden
+
+                rounded-lg
+
+                bg-gradient-to-r
+
+                from-green-500
+                via-cyan-500
+                to-blue-500
+
+                px-4
+                py-2.5
+
+                text-sm
+
+                font-bold
+
+                tracking-wider
+
+                text-white
+
+                shadow-lg
+
+                shadow-cyan-500/20
+
+                transition-all
+                duration-300
+
+                hover:-translate-y-0.5
+
+                hover:from-green-400
+                hover:via-cyan-400
+                hover:to-blue-400
+
+                hover:shadow-[0_10px_35px_rgba(6,182,212,0.25)]
+
+                active:translate-y-0
+
+                focus:outline-none
+
+                focus:ring-2
+
+                focus:ring-cyan-300/30
+            "
+        >
+
+            <!-- BUTTON SHINE -->
+
+            <span
+                    class="
+                    absolute
+                    inset-0
+
+                    -translate-x-full
+
+                    bg-gradient-to-r
+                    from-transparent
+                    via-white/25
+                    to-transparent
+
+                    transition-transform
+                    duration-700
+
+                    group-hover:translate-x-full
+                "
+            ></span>
+
+
+            <span class="relative">
+                LOGIN
+            </span>
+
+        </button>
+
+
+
+        <!-- ================================================= -->
+        <!-- MESSAGE -->
+        <!-- ================================================= -->
+
+        <p
+                id="message"
+
+                class="
+                text-center
+
+                mt-3
+
+                min-h-4
+
+                text-xs
+
+                font-medium
+
+                text-slate-300
+            "
+        ></p>
+
+
+    </form>
+
+
+
+    <!-- ================================================= -->
+    <!-- REGISTER LINK -->
+    <!-- ================================================= -->
+
+    <p
+            class="
+            text-center
+
+            text-xs
+
+            text-slate-300
+
+            mt-5
+        "
+    >
+
+        Don't have an account?
+
+        <a
+                href="/register.html"
+
+                class="
+                ml-1
+
+                font-semibold
+
+                text-green-300
+
+                transition-all
+                duration-200
+
+                hover:text-green-100
+
+                hover:underline
+
+                hover:underline-offset-4
+
+                hover:drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]
+            "
+        >
+            Register
+        </a>
+
+    </p>
+
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ===================================================== -->
+
+<script src="/js/api.js"></script>
+
+<script src="/js/common.js"></script>
+
+<script src="/js/login.js"></script>
+
+
+</body>
+
+</html>

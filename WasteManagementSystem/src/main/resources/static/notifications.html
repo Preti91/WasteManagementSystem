@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1">
+
+    <title>Notifications | RecycleX</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css">
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css">
+
+
+
+
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body>
+
+
+<main
+        class="
+max-w-5xl
+mx-auto
+px-6
+py-10
+"
+>
+
+
+    <h1
+            class="
+text-4xl
+font-bold
+mb-8
+"
+    >
+        Notifications
+    </h1>
+
+
+    <div
+            id="notifications"
+            class="space-y-4"
+    >
+        Loading...
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+
+    requireLogin();
+
+
+    async function loadNotifications() {
+
+
+        try {
+
+
+            const data =
+                await apiFetch(
+                    API.NOTIFICATIONS
+                );
+
+
+            const notifications =
+                Array.isArray(data)
+                    ?
+                    data
+                    :
+                    [];
+
+
+            const container =
+                document
+                    .getElementById(
+                        "notifications"
+                    );
+
+
+            if (
+                notifications.length === 0
+            ) {
+
+                container.innerHTML =
+                    `
+                <div class="glass p-8 rounded-2xl text-gray-400">
+                    No notifications.
+                </div>
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                notifications
+                    .map(
+                        notification =>
+                            `
+
+                    <div
+                    class="
+                    glass
+                    rounded-2xl
+                    p-5
+                    "
+                    >
+
+                    <div
+                    class="
+                    flex
+                    justify-between
+                    gap-5
+                    "
+                    >
+
+                    <div>
+
+                    <h3 class="font-bold">
+
+                    ${notification.message || ""}
+
+                    </h3>
+
+                    <p class="
+                    text-gray-500
+                    text-sm
+                    mt-2
+                    ">
+
+                    ${notification.createdAt || ""}
+
+                    </p>
+
+                    </div>
+
+                    ${
+                                notification.read
+                                    ?
+                                    ""
+                                    :
+                                    `
+                        <button
+                        onclick="
+                        markRead(${notification.id})
+                        "
+                        class="
+                        text-green-400
+                        text-sm
+                        "
+                        >
+                        Mark read
+                        </button>
+                        `
+                            }
+
+                    </div>
+
+                    </div>
+
+                    `
+                    )
+                    .join("");
+
+
+        } catch(error) {
+
+
+            document
+                .getElementById(
+                    "notifications"
+                )
+                .textContent =
+                error.message;
+
+        }
+
+    }
+
+
+
+    async function markRead(id) {
+
+
+        try {
+
+
+            await apiFetch(
+                API.NOTIFICATIONS +
+                "/" +
+                id +
+                "/read",
+                {
+                    method: "PUT"
+                }
+            );
+
+
+            loadNotifications();
+
+
+        } catch(error) {
+
+            alert(
+                error.message
+            );
+
+        }
+
+    }
+
+
+    loadNotifications();
+
+</script>
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/notifications.js"></script>
+
+</body>
+
+</html>

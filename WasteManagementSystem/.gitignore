@@ -1,0 +1,10 @@
+target/
+.idea/
+*.iml
+uploads/
+.env
+*.log
+.DS_Store
+
+application.properties
+application-local.properties

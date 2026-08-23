@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RecycleX Admin Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css"
+    >
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body class="min-h-screen">
+
+<nav class="
+    glass
+    sticky
+    top-0
+    z-50
+    px-6
+    py-4
+">
+
+    <div class="
+        max-w-7xl
+        mx-auto
+        flex
+        justify-between
+        items-center">
+
+        <div>
+
+            <h1 class="
+                text-2xl
+                font-bold
+                text-green-400
+            ">
+                <span class="brand-mark" aria-hidden="true"></span> RECYCLEX
+            </h1>
+
+            <p class="text-xs text-gray-500">
+                ADMIN CONTROL CENTER
+            </p>
+
+        </div>
+
+
+        <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+
+            <div class="profile-chip">
+                <div class="profile-chip__avatar" data-user-initial>A</div>
+                <div class="profile-chip__text">
+                    <p class="profile-chip__name" data-user-name>Admin</p>
+                    <p class="profile-chip__email" data-user-email></p>
+                </div>
+            </div>
+
+            <button
+                    onclick="logout()"
+                    class="
+                    px-4
+                    sm:px-5
+                    py-2
+                    rounded-xl
+                    bg-red-500
+                    text-white
+                    text-sm
+                    sm:text-base
+                    whitespace-nowrap
+                "
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main class="
+    max-w-7xl
+    mx-auto
+    px-6
+    py-8
+">
+
+
+    <h1 class="
+        text-4xl
+        font-bold
+        mb-8
+    ">
+        Admin
+        <span class="text-green-400">
+            Dashboard
+        </span>
+    </h1>
+
+
+    <!-- ================================================= -->
+    <!-- STATISTICS -->
+    <!-- ================================================= -->
+
+    <section class="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        lg:grid-cols-4
+        gap-5
+        mb-8
+    ">
+
+        <div class="glass rounded-3xl p-6">
+
+            <p class="text-gray-500">
+                Users
+            </p>
+
+            <h2
+                    id="totalUsers"
+                    class="text-4xl font-bold mt-2"
+            >
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="glass rounded-3xl p-6">
+
+            <p class="text-gray-500">
+                Garbage Reports
+            </p>
+
+            <h2
+                    id="totalReports"
+                    class="text-4xl font-bold mt-2"
+            >
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="glass rounded-3xl p-6">
+
+            <p class="text-gray-500">
+                Workers
+            </p>
+
+            <h2
+                    id="activeWorkers"
+                    class="text-4xl font-bold mt-2"
+            >
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="glass rounded-3xl p-6">
+
+            <p class="text-gray-500">
+                Recycling
+            </p>
+
+            <h2
+                    id="totalRecycling"
+                    class="text-4xl font-bold mt-2"
+            >
+                0
+            </h2>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- APPROVAL STATISTICS -->
+    <!-- ================================================= -->
+
+    <section class="
+        grid
+        grid-cols-1
+        md:grid-cols-4
+        gap-5
+        mb-10
+    ">
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-gray-500">
+                Pending Reports
+            </p>
+
+            <h2
+                    id="pendingReports"
+                    class="text-3xl font-bold"
+            >
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-yellow-400">
+                Awaiting Approval
+            </p>
+
+            <h2
+                    id="awaitingApproval"
+                    class="text-3xl font-bold"
+            >
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-green-400">
+                Completed
+            </p>
+
+            <h2
+                    id="completedReports"
+                    class="text-3xl font-bold"
+            >
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="glass rounded-2xl p-5">
+
+            <p class="text-yellow-400">
+                Recycling Approval
+            </p>
+
+            <h2
+                    id="awaitingRecyclingApproval"
+                    class="text-3xl font-bold"
+            >
+                0
+            </h2>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- ADMIN NOTIFICATIONS -->
+    <!-- ================================================= -->
+
+    <section class="mb-10">
+
+        <h2 class="
+            text-2xl
+            font-bold
+            mb-5
+        ">
+            🔔 Worker Completion Notifications
+        </h2>
+
+
+        <div
+                id="adminNotifications"
+                class="space-y-4"
+        >
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- GARBAGE REPORTS -->
+    <!-- ================================================= -->
+
+    <section class="mb-10">
+
+        <h2 class="
+            text-2xl
+            font-bold
+            mb-5
+        ">
+            🗑 Garbage Reports
+        </h2>
+
+
+        <div
+                id="adminReports"
+                class="grid gap-5"
+        >
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- USERS -->
+    <!-- ================================================= -->
+
+    <section class="mb-10">
+
+        <h2 class="
+            text-2xl
+            font-bold
+            mb-5
+        ">
+            👥 Users
+        </h2>
+
+
+        <div
+                id="adminUsers"
+                class="
+                grid
+                md:grid-cols-2
+                lg:grid-cols-3
+                gap-5
+            "
+        >
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- WORKERS -->
+    <!-- ================================================= -->
+
+    <section class="mb-10">
+
+        <h2 class="
+            text-2xl
+            font-bold
+            mb-5
+        ">
+            🚛 Workers
+        </h2>
+
+
+        <div
+                id="adminWorkers"
+                class="
+                grid
+                md:grid-cols-2
+                lg:grid-cols-3
+                gap-5
+            "
+        >
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- RECYCLING -->
+    <!-- ================================================= -->
+
+    <section class="mb-10">
+
+        <h2 class="
+            text-2xl
+            font-bold
+            mb-5
+        ">
+            ♻ Recycling Requests
+        </h2>
+
+
+        <div
+                id="adminRecycling"
+                class="grid gap-5"
+        >
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/admin-dashboard.js"></script>
+
+</body>
+
+</html>

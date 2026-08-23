@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Certificates | RecycleX</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+    <link rel="stylesheet" href="/css/tailwind.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body class="min-h-screen">
+
+
+<!-- NAVBAR -->
+
+<nav class="glass sticky top-0 z-50">
+
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        <a href="/user-dashboard.html" class="text-xl font-bold text-green-400">
+            <span class="brand-mark" aria-hidden="true"></span> RECYCLEX
+        </a>
+
+        <div class="hidden md:flex items-center gap-6">
+
+            <a href="/user-dashboard.html" class="text-gray-400 hover:text-green-400 transition">
+                Dashboard
+            </a>
+
+            <a href="/rewards.html" class="text-gray-400 hover:text-green-400 transition">
+                Rewards
+            </a>
+
+            <a href="/leaderboard.html" class="text-gray-400 hover:text-green-400 transition">
+                Leaderboard
+            </a>
+
+            <div class="profile-chip">
+                <div class="profile-chip__avatar" data-user-initial>U</div>
+                <div class="profile-chip__text">
+                    <p class="profile-chip__name" data-user-name>User</p>
+                    <p class="profile-chip__email" data-user-email></p>
+                </div>
+            </div>
+
+            <button onclick="logout()" class="text-red-400">
+                Logout
+            </button>
+
+        </div>
+
+        <button onclick="logout()" class="md:hidden text-red-400">
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+
+    <section class="mb-8">
+
+        <p class="text-yellow-400 text-sm mb-3">🏅 YOUR ACHIEVEMENTS</p>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold">
+            My <span class="text-green-400 text-glow">Certificates</span>
+        </h1>
+
+        <p class="text-gray-400 mt-4 max-w-xl">
+            Every reward you redeem earns you a unique, dated certificate.
+            View, print or save any certificate below.
+        </p>
+
+    </section>
+
+    <div id="certificateGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="glass rounded-2xl p-6 text-center text-gray-500 sm:col-span-2 lg:col-span-3">
+            Loading certificates...
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- CERTIFICATE MODAL -->
+
+<div
+        id="certificateModal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+>
+
+    <div class="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+
+        <button
+                onclick="closeCertificateModal()"
+                class="no-print absolute -top-3 -right-3 w-9 h-9 rounded-full modal-close-btn text-white flex items-center justify-center text-lg z-10"
+        >
+            ✕
+        </button>
+
+        <div id="printArea">
+            <div id="certificateDetail" class="certificate-paper text-center">
+                <!-- populated by JS -->
+            </div>
+        </div>
+
+        <div class="no-print flex flex-wrap justify-center gap-3 mt-5">
+
+            <button onclick="window.print()" class="eco-button text-sm">
+                🖨 Print / Save as PDF
+            </button>
+
+            <button onclick="closeCertificateModal()" class="eco-button-outline text-sm">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/certificates.js"></script>
+
+</body>
+</html>

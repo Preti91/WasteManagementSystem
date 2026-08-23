@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+/* Custom RecycleX theme */
+
+:root {
+    --eco-green: #39ff88;
+    --eco-green-dark: #0b7a43;
+    --eco-cyan: #38e8ff;
+    --eco-dark: #03100a;
+    --eco-panel: rgba(7, 28, 18, 0.72);
+}
+
+body {
+    background:
+            radial-gradient(
+                    circle at 10% 10%,
+                    rgba(57, 255, 136, 0.12),
+                    transparent 30%
+            ),
+            radial-gradient(
+                    circle at 90% 20%,
+                    rgba(56, 232, 255, 0.08),
+                    transparent 30%
+            ),
+            #03100a;
+
+    color: #ecfff4;
+}

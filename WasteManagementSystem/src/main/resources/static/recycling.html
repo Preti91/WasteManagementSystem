@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+                green: {
+                    300: '#86EFAC',
+                    400: '#4ADE80',
+                    500: '#22C55E',
+                    600: '#16A34A',
+                    700: '#15803D',
+                    800: '#166534'
+                },              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Recycling Pickup | RecycleX</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+    <!-- Tailwind -->
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css"
+    >
+
+    <!-- Custom CSS -->
+    <link
+            rel="stylesheet"
+            href="/css/style.css"
+    >
+
+    <style>
+
+        #recyclingMap {
+            width: 100%;
+            height: 350px;
+            border-radius: 20px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .map-status {
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        #pickupLocation {
+            width: 100%;
+        }
+
+        .pac-container {
+            z-index: 99999 !important;
+        }
+
+        #imagePreview {
+            max-height: 300px;
+            object-fit: cover;
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body class="min-h-screen grid-bg">
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="glass sticky top-0 z-50">
+
+    <div class="
+        max-w-7xl
+        mx-auto
+        px-6
+        py-4
+        flex
+        justify-between
+        items-center
+    ">
+
+        <a
+                href="/user-dashboard.html"
+                class="
+                    text-xl
+                    font-bold
+                    text-green-400
+                "
+        >
+            <span class="brand-mark" aria-hidden="true"></span> RECYCLEX
+        </a>
+
+
+        <div class="
+            flex
+            items-center
+            gap-5
+        ">
+
+            <a
+                    href="/user-dashboard.html"
+                    class="
+                        text-gray-400
+                        hover:text-green-400
+                    "
+            >
+                Dashboard
+            </a>
+
+
+            <button
+                    type="button"
+                    data-logout
+                    class="
+                        text-red-400
+                        hover:text-red-300
+                    "
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="
+    max-w-7xl
+    mx-auto
+    px-6
+    py-10
+">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="mb-10">
+
+        <div class="
+            inline-block
+            px-4
+            py-2
+            rounded-full
+            glass
+            text-green-400
+            text-sm
+            mb-4
+        ">
+
+            ♻ SMART RECYCLING
+
+        </div>
+
+
+<!--        <h1 class="-->
+<!--            text-4xl-->
+<!--            md:text-5xl-->
+<!--            text-blue-900-->
+<!--            font-bold-->
+<!--        ">-->
+
+<!--            Recycling Pickup-->
+
+<!--        </h1>-->
+        <h1 class="text-4xl md:text-5xl font-bold" style="color: var(--eco);">
+            Recycling Pickup
+        </h1>
+
+        <p class="
+            text-gray-800
+            mt-3
+            max-w-2xl
+        ">
+
+            Tell us what recyclable waste you have.
+            Our AI will identify the waste type and
+            your request will be sent to a recycling
+            worker.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         TWO COLUMN LAYOUT
+    ================================================== -->
+
+    <div class="
+        grid
+        lg:grid-cols-2
+        gap-8
+    ">
+
+
+        <!-- =================================================
+             LEFT SIDE - FORM
+        ================================================== -->
+
+        <section class="
+            glass
+            rounded-3xl
+            p-8
+        ">
+
+
+            <!-- FORM HEADER -->
+
+            <div class="
+                flex
+                items-center
+                gap-4
+                mb-7
+            ">
+
+                <div class="
+                    w-14
+                    h-14
+                    rounded-2xl
+                    bg-green-400/10
+                    flex
+                    items-center
+                    justify-center
+                    text-3xl
+                ">
+
+                    ♻
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="
+                        text-2xl
+                        font-bold
+                    ">
+
+                        Request Pickup
+
+                    </h2>
+
+
+                    <p class="
+                        text-gray-500
+                        text-sm
+                    ">
+
+                        Describe the waste you want
+                        to recycle.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FORM
+            ================================================== -->
+
+            <form
+                    id="recyclingForm"
+                    enctype="multipart/form-data"
+            >
+
+
+                <!-- =================================================
+                     DESCRIPTION
+                ================================================== -->
+
+                <label class="
+                    block
+                    text-gray-400
+                    text-sm
+                    mb-2
+                ">
+
+                    Waste Description
+
+                    <span class="text-red-400">
+                        *
+                    </span>
+
+                </label>
+
+
+                <textarea
+                        id="description"
+                        name="description"
+                        class="
+                            eco-input
+                            mb-5
+                            h-36
+                            resize-none
+                        "
+                        placeholder="Example: I have 5 plastic bottles, cardboard boxes and metal cans."
+                        required
+                ></textarea>
+
+
+                <p class="
+                    text-gray-500
+                    text-xs
+                    -mt-3
+                    mb-5
+                ">
+
+                    💡 Describe your waste clearly.
+                    The backend AI will determine the
+                    waste type automatically.
+
+                </p>
+
+
+
+                <!-- =================================================
+                     IMAGE UPLOAD
+                ================================================== -->
+
+                <label class="
+                    block
+                    text-gray-400
+                    text-sm
+                    mb-2
+                ">
+
+                    Waste Image
+
+                    <span class="text-gray-600">
+                        (Optional)
+                    </span>
+
+                </label>
+
+
+                <input
+                        id="wasteImage"
+                        name="wasteImage"
+                        type="file"
+                        accept="image/*"
+                        class="
+                            eco-input
+                            mb-3
+                        "
+                >
+
+
+                <p class="
+                    text-gray-500
+                    text-xs
+                    mb-6
+                ">
+
+                    📷 Upload a photo of the waste.
+
+                </p>
+
+
+
+                <!-- =================================================
+                     IMAGE PREVIEW
+                ================================================== -->
+
+                <div
+                        id="imagePreviewContainer"
+                        class="hidden mb-6"
+                >
+
+                    <p class="
+                        text-gray-400
+                        text-sm
+                        mb-2
+                    ">
+
+                        Image Preview
+
+                    </p>
+
+
+                    <img
+                            id="imagePreview"
+                            src=""
+                            alt="Waste Preview"
+                            class="
+                                w-full
+                                max-h-64
+                                object-cover
+                                rounded-2xl
+                            "
+                    >
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PICKUP LOCATION
+                ================================================== -->
+
+                <label class="
+                    block
+                    text-gray-400
+                    text-sm
+                    mb-2
+                ">
+
+                    Pickup Location
+
+                    <span class="text-red-400">
+                        *
+                    </span>
+
+                </label>
+
+
+                <input
+                        id="pickupLocation"
+                        name="pickupLocation"
+                        type="text"
+                        class="
+                            eco-input
+                            mb-3
+                        "
+                        placeholder="Start typing your pickup address..."
+                        autocomplete="off"
+                        required
+                >
+
+
+                <p class="
+                    text-gray-600
+                    text-xs
+                    mb-4
+                ">
+
+                    🔎 Select an address from the
+                    Google Maps suggestions.
+
+                </p>
+
+
+
+                <!-- =================================================
+                     CURRENT LOCATION
+                ================================================== -->
+
+                <button
+                        type="button"
+                        id="getLocationBtn"
+                        class="
+                            eco-button
+                            w-full
+                            mb-5
+                        "
+                >
+
+                    📍 Use My Current Location
+
+                </button>
+
+
+
+                <!-- =================================================
+                     GOOGLE MAP
+                ================================================== -->
+
+                <div
+                        id="recyclingMap"
+                ></div>
+
+
+                <p
+                        id="locationStatus"
+                        class="
+                            map-status
+                            text-gray-500
+                            mb-5
+                        "
+                >
+
+                    Select a location on the map.
+
+                </p>
+
+
+
+                <!-- =================================================
+                     LATITUDE
+                ================================================== -->
+
+                <label class="
+                    block
+                    text-gray-500
+                    text-xs
+                    mb-2
+                ">
+
+                    Latitude
+
+                </label>
+
+
+                <input
+                        id="latitude"
+                        name="latitude"
+                        type="number"
+                        step="any"
+                        class="
+                            eco-input
+                            mb-4
+                        "
+                        placeholder="Automatically detected"
+                        readonly
+                >
+
+
+
+                <!-- =================================================
+                     LONGITUDE
+                ================================================== -->
+
+                <label class="
+                    block
+                    text-gray-500
+                    text-xs
+                    mb-2
+                ">
+
+                    Longitude
+
+                </label>
+
+
+                <input
+                        id="longitude"
+                        name="longitude"
+                        type="number"
+                        step="any"
+                        class="
+                            eco-input
+                            mb-6
+                        "
+                        placeholder="Automatically detected"
+                        readonly
+                >
+
+
+
+                <!-- =================================================
+                     SUBMIT
+                ================================================== -->
+
+                <button
+                        type="submit"
+                        id="submitRecyclingBtn"
+                        class="
+                            eco-button
+                            w-full
+                        "
+                >
+
+                    ♻ REQUEST RECYCLING PICKUP
+
+                </button>
+
+
+
+                <!-- MESSAGE -->
+
+                <p
+                        id="message"
+                        class="mt-4"
+                ></p>
+
+
+            </form>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT SIDE
+        ================================================== -->
+
+        <section class="space-y-6">
+
+
+            <!-- =================================================
+                 WHY RECYCLE
+            ================================================== -->
+
+            <div class="
+                glass
+                rounded-3xl
+                p-8
+                card-3d
+            ">
+
+                <div class="
+                    text-6xl
+                    mb-5
+                ">
+
+                    🌱
+
+                </div>
+
+
+                <h2 class="
+                    text-2xl
+                    font-bold
+                ">
+
+                    Why Recycle?
+
+                </h2>
+
+
+                <p class="
+                    text-gray-400
+                    mt-3
+                    leading-relaxed
+                ">
+
+                    Recycling reduces waste, saves
+                    natural resources and helps create
+                    a cleaner and healthier environment.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 WASTE TYPES
+            ================================================== -->
+
+            <div class="
+                grid
+                sm:grid-cols-2
+                gap-5
+            ">
+
+
+                <!-- PLASTIC -->
+
+                <div class="
+                    glass
+                    rounded-2xl
+                    p-6
+                    card-3d
+                ">
+
+                    <div class="
+                        text-4xl
+                        mb-4
+                    ">
+
+                        🧴
+
+                    </div>
+
+
+                    <h3 class="font-bold">
+                        Plastic
+                    </h3>
+
+
+                    <p class="
+                        text-gray-500
+                        text-sm
+                        mt-2
+                    ">
+
+                        Bottles, containers
+                        and packaging.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- PAPER -->
+
+                <div class="
+                    glass
+                    rounded-2xl
+                    p-6
+                    card-3d
+                ">
+
+                    <div class="
+                        text-4xl
+                        mb-4
+                    ">
+
+                        📦
+
+                    </div>
+
+
+                    <h3 class="font-bold">
+                        Paper
+                    </h3>
+
+
+                    <p class="
+                        text-gray-500
+                        text-sm
+                        mt-2
+                    ">
+
+                        Newspapers, boxes
+                        and paper waste.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- METAL -->
+
+                <div class="
+                    glass
+                    rounded-2xl
+                    p-6
+                    card-3d
+                ">
+
+                    <div class="
+                        text-4xl
+                        mb-4
+                    ">
+
+                        🥫
+
+                    </div>
+
+
+                    <h3 class="font-bold">
+                        Metal
+                    </h3>
+
+
+                    <p class="
+                        text-gray-500
+                        text-sm
+                        mt-2
+                    ">
+
+                        Cans and recyclable
+                        metal items.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- E-WASTE -->
+
+                <div class="
+                    glass
+                    rounded-2xl
+                    p-6
+                    card-3d
+                ">
+
+                    <div class="
+                        text-4xl
+                        mb-4
+                    ">
+
+                        💻
+
+                    </div>
+
+
+                    <h3 class="font-bold">
+                        E-Waste
+                    </h3>
+
+
+                    <p class="
+                        text-gray-500
+                        text-sm
+                        mt-2
+                    ">
+
+                        Electronics and
+                        electrical waste.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 HOW IT WORKS
+            ================================================== -->
+
+            <div class="
+                glass
+                rounded-3xl
+                p-8
+            ">
+
+                <h2 class="
+                    text-xl
+                    font-bold
+                    mb-6
+                ">
+
+                    How It Works
+
+                </h2>
+
+
+                <div class="space-y-5">
+
+
+                    <!-- STEP 1 -->
+
+                    <div class="flex gap-4">
+
+                        <div class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-green-400/10
+                            text-green-400
+                            flex
+                            items-center
+                            justify-center
+                            font-bold
+                            shrink-0
+                        ">
+
+                            1
+
+                        </div>
+
+
+                        <div>
+
+                            <h3 class="font-bold">
+                                Describe Your Waste
+                            </h3>
+
+
+                            <p class="
+                                text-gray-500
+                                text-sm
+                            ">
+
+                                Tell us what recyclable
+                                waste you have.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 2 -->
+
+                    <div class="flex gap-4">
+
+                        <div class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-green-400/10
+                            text-green-400
+                            flex
+                            items-center
+                            justify-center
+                            font-bold
+                            shrink-0
+                        ">
+
+                            2
+
+                        </div>
+
+
+                        <div>
+
+                            <h3 class="font-bold">
+                                AI Identifies Waste
+                            </h3>
+
+
+                            <p class="
+                                text-gray-500
+                                text-sm
+                            ">
+
+                                The backend AI determines
+                                the waste type.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 3 -->
+
+                    <div class="flex gap-4">
+
+                        <div class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-green-400/10
+                            text-green-400
+                            flex
+                            items-center
+                            justify-center
+                            font-bold
+                            shrink-0
+                        ">
+
+                            3
+
+                        </div>
+
+
+                        <div>
+
+                            <h3 class="font-bold">
+                                Worker Assigned
+                            </h3>
+
+
+                            <p class="
+                                text-gray-500
+                                text-sm
+                            ">
+
+                                An admin assigns a recycling
+                                worker to your request.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 4 -->
+
+                    <div class="flex gap-4">
+
+                        <div class="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-green-400/10
+                            text-green-400
+                            flex
+                            items-center
+                            justify-center
+                            font-bold
+                            shrink-0
+                        ">
+
+                            4
+
+                        </div>
+
+
+                        <div>
+
+                            <h3 class="font-bold">
+                                Pickup Completed
+                            </h3>
+
+
+                            <p class="
+                                text-gray-500
+                                text-sm
+                            ">
+
+                                The recycling worker collects
+                                your recyclable waste.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MY REQUESTS
+    ================================================== -->
+
+    <section class="mt-12">
+
+        <div class="mb-6">
+
+            <h2 class="
+                text-2xl
+                font-bold
+            ">
+
+                My Recycling Requests
+
+            </h2>
+
+
+            <p class="
+                text-gray-500
+                mt-1
+            ">
+
+                Track your recycling pickup requests.
+
+            </p>
+
+        </div>
+
+
+        <div
+                id="recyclingRequests"
+                class="
+                    grid
+                    md:grid-cols-2
+                    lg:grid-cols-3
+                    gap-5
+                "
+        >
+
+            <div class="
+                glass
+                rounded-2xl
+                p-6
+                text-gray-500
+            ">
+
+                Loading requests...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<!-- API configuration -->
+<script src="/js/api.js"></script>
+
+<!-- Common JavaScript -->
+<script src="/js/common.js"></script>
+
+
+<!-- =====================================================
+     GOOGLE MAPS
+
+     IMPORTANT:
+     Replace YOUR_GOOGLE_MAPS_API_KEY with your key.
+====================================================== -->
+
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl0eXwNx22FRBeabRj2dYolCV1EJ0WeQc&libraries=places&callback=initRecyclingMap"
+        async
+        defer>
+</script>
+
+
+<!-- =====================================================
+     RECYCLING JS
+
+     LOAD THIS ONLY ONCE
+====================================================== -->
+
+<script src="/js/recycling.js"></script>
+
+
+</body>
+
+</html>

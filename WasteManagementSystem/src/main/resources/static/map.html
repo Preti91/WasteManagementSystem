@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1"
+    >
+
+    <title>
+        Live Waste Map | RecycleX
+    </title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+
+    <!-- Tailwind CSS -->
+
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css"
+    >
+
+
+    <!-- Custom CSS -->
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css"
+    >
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav
+        class="
+        glass
+        sticky
+        top-0
+        z-50
+    "
+>
+
+    <div
+            class="
+            max-w-7xl
+            mx-auto
+            px-6
+            py-4
+            flex
+            justify-between
+            items-center
+        "
+    >
+
+        <a
+                href="/user-dashboard.html"
+                class="
+                text-green-400
+                font-bold
+                text-xl
+            "
+        >
+            <span class="brand-mark" aria-hidden="true"></span> RECYCLEX
+        </a>
+
+
+        <button
+                type="button"
+                data-logout
+                class="
+                text-red-400
+                hover:text-red-300
+            "
+        >
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main
+        class="
+        max-w-7xl
+        mx-auto
+        px-6
+        py-8
+    "
+>
+
+
+    <!-- HEADER -->
+
+    <div class="mb-6">
+
+        <h1
+                class="
+                text-4xl
+                font-bold
+            "
+        >
+            Live Waste Map
+        </h1>
+
+
+        <p class="
+            text-gray-400
+            mt-2
+        ">
+
+            Track your location and
+            visualize garbage reports.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MAP CARD
+    ================================================== -->
+
+    <div
+            class="
+            glass
+            rounded-3xl
+            p-4
+        "
+    >
+
+
+        <!-- BUTTONS -->
+
+        <div
+                class="
+                flex
+                flex-wrap
+                gap-3
+                mb-4
+            "
+        >
+
+
+            <!-- MY LOCATION -->
+
+            <button
+                    type="button"
+                    id="locationBtn"
+                    class="eco-button"
+            >
+
+                📍 My Location
+
+            </button>
+
+
+
+            <!-- START TRACKING -->
+
+            <button
+                    type="button"
+                    id="trackingBtn"
+                    class="
+                    px-5
+                    py-3
+                    rounded-xl
+                    border
+                    border-green-400/20
+                    text-green-400
+                    hover:bg-green-400/10
+                "
+            >
+
+                ▶ Start Tracking
+
+            </button>
+
+
+
+            <!-- STOP TRACKING -->
+
+            <button
+                    type="button"
+                    id="stopBtn"
+                    class="
+                    px-5
+                    py-3
+                    rounded-xl
+                    border
+                    border-red-400/20
+                    text-red-400
+                    hover:bg-red-400/10
+                "
+            >
+
+                ■ Stop Tracking
+
+            </button>
+
+
+
+            <!-- LOAD REPORTS -->
+
+            <button
+                    type="button"
+                    id="reportBtn"
+                    class="
+                    px-5
+                    py-3
+                    rounded-xl
+                    border
+                    border-cyan-400/20
+                    text-cyan-400
+                    hover:bg-cyan-400/10
+                "
+            >
+
+                ♻ Load Reports
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- MAP -->
+
+        <div
+                id="map"
+                style="
+                    width: 100%;
+                    height: 500px;
+                    border-radius: 20px;
+                    overflow: hidden;
+                "
+        ></div>
+
+
+
+        <!-- LOCATION STATUS -->
+
+        <p
+                id="locationStatus"
+                class="
+                text-gray-400
+                mt-4
+            "
+        >
+
+            Location not detected.
+
+        </p>
+
+
+        <!-- ROUTE INFO -->
+
+        <div
+                class="
+                grid
+                sm:grid-cols-3
+                gap-3
+                mt-4
+            "
+        >
+
+            <div class="glass rounded-2xl p-4">
+                <p class="text-xs text-gray-500">Distance</p>
+                <h3 id="routeDistance" class="font-bold text-green-400 mt-1">—</h3>
+            </div>
+
+            <div class="glass rounded-2xl p-4">
+                <p class="text-xs text-gray-500">ETA</p>
+                <h3 id="routeDuration" class="font-bold text-cyan-400 mt-1">—</h3>
+            </div>
+
+            <div class="glass rounded-2xl p-4">
+                <p class="text-xs text-gray-500">Route Status</p>
+                <h3 id="routeStatus" class="font-bold text-amber-400 mt-1">Select a report</h3>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     GOOGLE MAPS JAVASCRIPT API
+===================================================== -->
+
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-vaZ68fa-9kK9g4krM9fqmRZy7MpbD5c
+&libraries=places&callback=initMap"
+        async
+        defer>
+</script>
+
+
+
+<!-- =====================================================
+     APPLICATION JAVASCRIPT
+
+     Order:
+
+     api.js
+        ↓
+     common.js
+        ↓
+     map.js
+===================================================== -->
+
+<script src="/js/api.js"></script>
+
+<script src="/js/common.js"></script>
+
+<script src="/js/map.js"></script>
+
+
+</body>
+
+</html>

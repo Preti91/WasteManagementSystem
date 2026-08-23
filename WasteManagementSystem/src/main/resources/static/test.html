@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tailwind Test</title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+    <link rel="stylesheet" href="/css/tailwind.css">
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+<body class="bg-green-950 min-h-screen flex items-center justify-center">
+
+<div class="text-center">
+
+    <h1 class="text-6xl font-bold text-green-400">
+        Tailwind Works! ♻
+    </h1>
+
+    <p class="text-white text-xl mt-5">
+        RecycleX frontend setup is working.
+    </p>
+
+    <button
+            class="
+                mt-6
+                px-6
+                py-3
+                bg-green-400
+                text-black
+                font-bold
+                rounded-xl
+                hover:bg-green-300
+            "
+    >
+        Test Button
+    </button>
+
+</div>
+
+</body>
+</html>

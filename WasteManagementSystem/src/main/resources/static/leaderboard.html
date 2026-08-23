@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Tailwind CDN (Play) + custom color theme override -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: { 300:'#8EC5FF', 400:'#4F9DFF', 500:'#2F80ED', 600:'#1D5FCC' },
+              cyan:  { 300:'#7DD3FC', 400:'#38BDF8', 500:'#0EA5E9' },
+              amber: { 300:'#FFD98A', 400:'#FFC145', 500:'#E8952A' },
+            },
+            fontFamily: {
+              sans: ['"DM Sans"','sans-serif'],
+              display: ['"Space Grotesk"','sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Leaderboard | RecycleX
+    </title>
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+
+
+    <!-- =========================
+         TAILWIND CSS
+    ========================== -->
+
+    <link
+            rel="stylesheet"
+            href="/css/tailwind.css"
+    >
+
+
+    <!-- =========================
+         CUSTOM CSS
+    ========================== -->
+
+    <link
+            rel="stylesheet"
+            href="/css/style.css"
+    >
+
+    <link rel="stylesheet" href="/css/frontend-polish.css">
+
+</head>
+
+
+<body class="min-h-screen grid-bg">
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav
+        class="
+        glass
+        sticky
+        top-0
+        z-50
+    "
+>
+
+    <div
+            class="
+            max-w-7xl
+            mx-auto
+            px-6
+            py-4
+            flex
+            items-center
+            justify-between
+        "
+    >
+
+
+        <!-- LOGO -->
+
+        <a
+                href="/user-dashboard.html"
+                class="
+                text-xl
+                md:text-2xl
+                font-bold
+                text-green-400
+            "
+        >
+
+            ♻ RECYCLE
+            <span class="text-cyan-400">
+                X
+            </span>
+
+        </a>
+
+
+
+        <!-- NAVIGATION -->
+
+        <div
+                class="
+                hidden
+                md:flex
+                items-center
+                gap-6
+            "
+        >
+
+            <a
+                    href="/user-dashboard.html"
+                    class="
+                    text-gray-400
+                    hover:text-green-400
+                    transition
+                "
+            >
+                Dashboard
+            </a>
+
+
+            <a
+                    href="/recycling.html"
+                    class="
+                    text-gray-400
+                    hover:text-green-400
+                    transition
+                "
+            >
+                Recycling
+            </a>
+
+
+            <a
+                    href="/rewards.html"
+                    class="
+                    text-gray-400
+                    hover:text-green-400
+                    transition
+                "
+            >
+                Rewards
+            </a>
+
+
+            <button
+                    type="button"
+                    data-logout
+                    class="
+                    text-red-400
+                    hover:text-red-300
+                    transition
+                "
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main
+        class="
+        max-w-5xl
+        mx-auto
+        px-6
+        py-12
+    "
+>
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <section
+            class="
+            text-center
+            mb-12
+        "
+    >
+
+        <div
+                class="
+                inline-flex
+                items-center
+                gap-2
+                px-5
+                py-2
+                rounded-full
+                glass
+                text-yellow-400
+                text-sm
+                mb-5
+            "
+        >
+
+            🏆 ECO CHAMPIONS
+
+        </div>
+
+
+        <h1
+                class="
+                text-4xl
+                md:text-6xl
+                font-bold
+            "
+        >
+
+            Community
+
+            <span
+                    class="
+                    text-green-400
+                    text-glow
+                "
+            >
+                Leaderboard
+            </span>
+
+        </h1>
+
+
+        <p
+                class="
+                text-gray-400
+                max-w-2xl
+                mx-auto
+                mt-4
+                leading-relaxed
+            "
+        >
+
+            See the citizens making the biggest
+            contribution to a cleaner and greener
+            community.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         TOP 3 LEADERBOARD
+    ================================================== -->
+
+    <section
+            class="
+            grid
+            md:grid-cols-3
+            gap-5
+            mb-10
+        "
+    >
+
+
+        <!-- =========================
+             SECOND PLACE
+        ========================== -->
+
+        <div
+                id="secondPlace"
+                class="
+                glass
+                rounded-3xl
+                p-7
+                text-center
+                md:mt-10
+                card-3d
+            "
+        >
+
+            <div
+                    class="
+                    text-5xl
+                    mb-4
+                "
+            >
+                🥈
+            </div>
+
+
+            <p
+                    class="
+                    text-gray-500
+                    text-sm
+                "
+            >
+                2nd Place
+            </p>
+
+
+            <h3
+                    id="secondName"
+                    class="
+                    text-xl
+                    font-bold
+                    mt-2
+                "
+            >
+                —
+            </h3>
+
+
+            <p
+                    id="secondPoints"
+                    class="
+                    text-yellow-400
+                    font-bold
+                    mt-3
+                "
+            >
+                ⭐ 0
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             FIRST PLACE
+        ========================== -->
+
+        <div
+                id="firstPlace"
+                class="
+                glass
+                rounded-3xl
+                p-8
+                text-center
+                border
+                border-green-400/30
+                green-glow
+                card-3d
+            "
+        >
+
+            <div
+                    class="
+                    text-6xl
+                    mb-4
+                "
+            >
+                🥇
+            </div>
+
+
+            <p
+                    class="
+                    text-green-400
+                    text-sm
+                    font-bold
+                "
+            >
+                #1 ECO CHAMPION
+            </p>
+
+
+            <h3
+                    id="firstName"
+                    class="
+                    text-2xl
+                    font-bold
+                    mt-2
+                "
+            >
+                —
+            </h3>
+
+
+            <p
+                    id="firstPoints"
+                    class="
+                    text-yellow-400
+                    text-lg
+                    font-bold
+                    mt-3
+                "
+            >
+                ⭐ 0
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             THIRD PLACE
+        ========================== -->
+
+        <div
+                id="thirdPlace"
+                class="
+                glass
+                rounded-3xl
+                p-7
+                text-center
+                md:mt-10
+                card-3d
+            "
+        >
+
+            <div
+                    class="
+                    text-5xl
+                    mb-4
+                "
+            >
+                🥉
+            </div>
+
+
+            <p
+                    class="
+                    text-gray-500
+                    text-sm
+                "
+            >
+                3rd Place
+            </p>
+
+
+            <h3
+                    id="thirdName"
+                    class="
+                    text-xl
+                    font-bold
+                    mt-2
+                "
+            >
+                —
+            </h3>
+
+
+            <p
+                    id="thirdPoints"
+                    class="
+                    text-yellow-400
+                    font-bold
+                    mt-3
+                "
+            >
+                ⭐ 0
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ALL USERS
+    ================================================== -->
+
+    <section>
+
+
+        <!-- SECTION HEADER -->
+
+        <div
+                class="
+                flex
+                items-center
+                justify-between
+                mb-6
+            "
+        >
+
+            <div>
+
+                <h2
+                        class="
+                        text-2xl
+                        font-bold
+                    "
+                >
+                    All Eco Contributors
+                </h2>
+
+
+                <p
+                        class="
+                        text-gray-500
+                        text-sm
+                        mt-1
+                    "
+                >
+                    Ranked by reward points
+                </p>
+
+            </div>
+
+
+            <div
+                    class="
+                    text-green-400
+                    text-sm
+                "
+            >
+
+                🌱 Keep Recycling!
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             LEADERBOARD CONTAINER
+
+             leaderboard.js will put users here
+        ================================================== -->
+
+        <div id="leaderboard">
+
+            <!-- Loading message -->
+
+            <div
+                    class="
+                    glass
+                    rounded-2xl
+                    p-8
+                    text-center
+                    text-gray-500
+                "
+            >
+
+                <div
+                        class="
+                        text-4xl
+                        mb-3
+                    "
+                >
+                    🏆
+                </div>
+
+
+                <p>
+                    Loading leaderboard...
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         MOTIVATION CARD
+    ================================================== -->
+
+    <section
+            class="
+            glass
+            rounded-3xl
+            p-8
+            mt-10
+            text-center
+        "
+    >
+
+        <div
+                class="
+                text-4xl
+                mb-4
+            "
+        >
+            🌍
+        </div>
+
+
+        <h2
+                class="
+                text-2xl
+                font-bold
+            "
+        >
+            Every Action Counts
+        </h2>
+
+
+        <p
+                class="
+                text-gray-400
+                max-w-xl
+                mx-auto
+                mt-3
+            "
+        >
+
+            Report garbage, recycle waste,
+            complete eco-friendly activities
+            and earn points to climb the
+            leaderboard.
+
+        </p>
+
+
+        <div
+                class="
+                flex
+                flex-wrap
+                justify-center
+                gap-4
+                mt-6
+            "
+        >
+
+
+            <!-- REPORT -->
+
+            <a
+                    href="/report.html"
+                    class="eco-button"
+            >
+                📍 Report Garbage
+            </a>
+
+
+
+            <!-- RECYCLING -->
+
+            <a
+                    href="/recycling.html"
+                    class="
+                    px-6
+                    py-3
+                    rounded-xl
+                    border
+                    border-green-400/20
+                    text-green-400
+                    hover:bg-green-400/10
+                    transition
+                "
+            >
+                ♻ Recycle Now
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+
+     IMPORTANT:
+     Load these ONLY here.
+     Do NOT put them in <head>.
+===================================================== -->
+
+<script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/leaderboard.js"></script>
+
+</body>
+
+</html>
