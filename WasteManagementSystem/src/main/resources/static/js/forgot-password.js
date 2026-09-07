@@ -244,6 +244,110 @@ async function verifyOtp() {
 // RESET PASSWORD
 // =========================================================
 
+// async function resetPassword() {
+//
+//     const email =
+//         document
+//             .getElementById("resetEmail")
+//             .value
+//             .trim()
+//             .toLowerCase();
+//
+//
+//     const otp =
+//         document
+//             .getElementById("otp")
+//             .value
+//             .trim();
+//
+//
+//     const newPassword =
+//         document
+//             .getElementById("newPassword")
+//             .value;
+//
+//
+//     const confirmPassword =
+//         document
+//             .getElementById("confirmPassword")
+//             .value;
+//
+//
+//     if (newPassword.length < 8) {
+//
+//         showMessage(
+//             "Password must be at least 8 characters.",
+//             false
+//         );
+//
+//         return;
+//     }
+//
+//
+//     if (newPassword !== confirmPassword) {
+//
+//         showMessage(
+//             "Passwords do not match.",
+//             false
+//         );
+//
+//         return;
+//     }
+//
+//
+//     try {
+//
+//         const response =
+//             await apiPost(
+//                 API.AUTH.RESET_PASSWORD,
+//                 {
+//                     email: email,
+//                     otp: otp,
+//                     newPassword: newPassword,
+//                     confirmPassword: confirmPassword
+//                 }
+//             );
+//
+//
+//         showMessage(
+//             response,
+//             true
+//         );
+//
+//
+//         document
+//             .getElementById("passwordStep")
+//             .classList
+//             .add("hidden");
+//
+//
+//         setTimeout(
+//             () => {
+//
+//                 window.location.href =
+//                     "/login.html";
+//
+//             },
+//             1500
+//         );
+//
+//
+//     } catch (error) {
+//
+//         console.error(
+//             "RESET PASSWORD ERROR:",
+//             error
+//         );
+//
+//
+//         showMessage(
+//             error.message ||
+//             "Unable to reset password.",
+//             false
+//         );
+//     }
+// }
+
 async function resetPassword() {
 
     const email =
@@ -253,19 +357,16 @@ async function resetPassword() {
             .trim()
             .toLowerCase();
 
-
     const otp =
         document
             .getElementById("otp")
             .value
             .trim();
 
-
     const newPassword =
         document
             .getElementById("newPassword")
             .value;
-
 
     const confirmPassword =
         document
@@ -273,16 +374,28 @@ async function resetPassword() {
             .value;
 
 
-    if (newPassword.length < 8) {
+    // =====================================================
+    // PASSWORD VALIDATION
+    // =====================================================
+
+    const passwordPattern =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%!&*])[A-Za-z\d@#$%!&*]{6,}$/;
+
+
+    if (!passwordPattern.test(newPassword)) {
 
         showMessage(
-            "Password must be at least 8 characters.",
+            "Password must be at least 6 characters and contain one uppercase letter, one lowercase letter, one number, and one special character.",
             false
         );
 
         return;
     }
 
+
+    // =====================================================
+    // CONFIRM PASSWORD VALIDATION
+    // =====================================================
 
     if (newPassword !== confirmPassword) {
 
@@ -294,6 +407,10 @@ async function resetPassword() {
         return;
     }
 
+
+    // =====================================================
+    // RESET PASSWORD API
+    // =====================================================
 
     try {
 
@@ -315,12 +432,14 @@ async function resetPassword() {
         );
 
 
+        // Hide password reset step
         document
             .getElementById("passwordStep")
             .classList
             .add("hidden");
 
 
+        // Redirect to login page
         setTimeout(
             () => {
 
@@ -347,6 +466,7 @@ async function resetPassword() {
         );
     }
 }
+
 
 
 // =========================================================

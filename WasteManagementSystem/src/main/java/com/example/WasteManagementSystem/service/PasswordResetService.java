@@ -5,10 +5,12 @@ import com.example.WasteManagementSystem.entity.User;
 import com.example.WasteManagementSystem.repository.PasswordResetTokenRepository;
 import com.example.WasteManagementSystem.repository.UserRepository;
 
+//import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -22,12 +24,14 @@ public class PasswordResetService {
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     private final PasswordEncoder passwordEncoder;
-
+    private static final String PASSWORD_PATTERN =
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%!&*])"
+                    + "[A-Za-z\\d@#$%!&*]{6,}$";
 
     // =========================================================
     // SEND OTP
     // =========================================================
-
+    @Transactional
     public String sendOtp(String email) {
 
         String normalizedEmail =
@@ -184,13 +188,18 @@ public class PasswordResetService {
         }
 
 
-        if (newPassword.length() < 8) {
+//        if (newPassword.length() < 6) {
+//
+//            throw new RuntimeException(
+//                    "Password must be at least 6 characters."
+//            );
+//        }
+        if (!newPassword.matches(PASSWORD_PATTERN)) {
 
             throw new RuntimeException(
-                    "Password must be at least 8 characters."
+                    "Password must be at least 6 characters and contain one uppercase letter, one lowercase letter, one number, and one special character."
             );
         }
-
 
         // -----------------------------------------------------
         // Find valid OTP
