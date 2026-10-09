@@ -52,7 +52,7 @@ const DEFAULT_LOCATION = {
  * this function after the Maps API loads.
  */
 
-async function initMap() {
+window.initMap = async function () {
 
     console.log("Google Maps API loaded.");
 
